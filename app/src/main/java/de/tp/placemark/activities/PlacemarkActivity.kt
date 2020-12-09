@@ -2,12 +2,16 @@ package de.tp.placemark.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import de.tp.placemark.R
 import de.tp.placemark.main.MainApp
 import de.tp.placemark.models.PlacemarkModel
 import kotlinx.android.synthetic.main.activity_placemark.*
+import kotlinx.android.synthetic.main.activity_placemark_list.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
+import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.toast
 
 class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
@@ -22,6 +26,10 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
 
     // get application (application is actually getApplication() and gets an attribute of superclass Application of Activity)
     app = application as MainApp  // as is the "unsafe" cast operator, which will do no type-checking at all;
+
+    // set and enable toolbar
+    toolbarPlacemarkActivity.title = title;
+    setSupportActionBar(toolbarPlacemarkActivity)
 
     // set on click listener for Button
     btnAdd.setOnClickListener() {
@@ -40,7 +48,17 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
         toast("Please Enter a title")
       }
     };
+  }
 
-    // set on click listener for menu
+  override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    menuInflater.inflate(R.menu.menu_placemark_activity, menu)
+    return super.onCreateOptionsMenu(menu)
+  }
+
+  override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    when(item.itemId){
+      R.id.item_cancel -> finish()
+    }
+    return super.onOptionsItemSelected(item)
   }
 }

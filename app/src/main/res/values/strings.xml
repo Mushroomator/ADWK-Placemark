@@ -7,6 +7,7 @@
 
     <!-- Menu -->
     <string name="menu_addPlacemark">Add</string>
+    <string name="menu_cancelPlacemark">Cancel</string>
 
     <!-- Hints -->
     <string name="hint_placemarkTitle">Placemark Title</string>
