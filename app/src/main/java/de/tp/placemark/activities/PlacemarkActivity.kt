@@ -3,6 +3,7 @@ package de.tp.placemark.activities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import de.tp.placemark.R
+import de.tp.placemark.main.MainApp
 import de.tp.placemark.models.PlacemarkModel
 import kotlinx.android.synthetic.main.activity_placemark.*
 import org.jetbrains.anko.AnkoLogger
@@ -12,12 +13,15 @@ import org.jetbrains.anko.toast
 class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
 
   var placemark = PlacemarkModel()
-  val placemarks = ArrayList<PlacemarkModel>()
+  lateinit var app: MainApp
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     info("Placemark Activity started.")
     setContentView(R.layout.activity_placemark)
+
+    // get application (application is actually getApplication() and gets an attribute of superclass Application of Activity)
+    app = application as MainApp  // as is the "unsafe" cast operator, which will do no type-checking at all;
 
     // set on click listener for Button
     btnAdd.setOnClickListener() {
@@ -25,14 +29,18 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
       placemark.description = placemarkDescription.text.toString()
       if (placemark.title.isNotEmpty()) {
         info("Placemark added:\n ${placemark}")
-        placemarks.add(placemark.copy())
-        for (i in placemarks.indices){
-          info("Placemark[${i}:${this.placemarks[i]}")
+        app.placemarks.add(placemark.copy())
+        for (i in app.placemarks.indices){
+          info("Placemark[${i}:${app.placemarks[i]}")
         }
+        setResult(AppCompatActivity.RESULT_OK)
+        finish()
       }
       else {
         toast("Please Enter a title")
       }
     };
+
+    // set on click listener for menu
   }
 }

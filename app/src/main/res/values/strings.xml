@@ -1,6 +1,14 @@
 <resources>
+    <!-- Metadata-->
     <string name="app_name">Placemark</string>
+
+    <!-- Buttons -->
     <string name="button_addPlacemark">Add Placemark</string>
+
+    <!-- Menu -->
+    <string name="menu_addPlacemark">Add</string>
+
+    <!-- Hints -->
     <string name="hint_placemarkTitle">Placemark Title</string>
     <string name="hint_placemarkDescription">Placemark Description</string>
 </resources>
