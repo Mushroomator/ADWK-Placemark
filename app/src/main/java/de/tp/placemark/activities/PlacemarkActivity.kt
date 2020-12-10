@@ -29,11 +29,14 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
     toolbarPlacemarkActivity.title = title;
     setSupportActionBar(toolbarPlacemarkActivity)
 
+    var edit = false;
     val editExtraKey = "placemark_edit"
     if (this.intent.hasExtra(editExtraKey)){
+      edit = true
       placemark = this.intent.extras?.getParcelable<PlacemarkModel>(editExtraKey)!!
       placemarkTitle.setText(placemark.title)
       placemarkDescription.setText(placemark.description)
+      btnAdd.text = getString(R.string.button_savePlacemark)
     }
 
     // set on click listener for Button
@@ -41,14 +44,19 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
       placemark.title = placemarkTitle.text.toString()
       placemark.description = placemarkDescription.text.toString()
       if (placemark.title.isNotEmpty()) {
-        app.placemarks.create(placemark.copy())
-        info("Placemark added:\n ${placemark}")
-        app.placemarks.logAll()
-        setResult(AppCompatActivity.RESULT_OK)
+        if (edit){
+          app.placemarks.update(placemark)
+        }
+        else{
+          app.placemarks.create(placemark.copy())
+          info("Placemark added:\n ${placemark}")
+          app.placemarks.logAll()
+          setResult(AppCompatActivity.RESULT_OK)
+        }
         finish()
       }
       else {
-        toast("Please Enter a title")
+        toast(getString(R.string.toast_enterPlacemarkTitle))
       }
     };
 

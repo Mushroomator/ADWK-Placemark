@@ -19,7 +19,9 @@ class PlacemarkMemStore: PlacemarkStore, AnkoLogger {
     }
 
     override fun create(placemark: PlacemarkModel) {
+        placemark.id = getId()
         placemarks.add(placemark)
+        logAll()
     }
 
     override fun logAll() {
