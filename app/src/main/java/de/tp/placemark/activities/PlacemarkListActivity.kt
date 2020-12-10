@@ -6,10 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import de.tp.placemark.R
 import de.tp.placemark.main.MainApp
+import de.tp.placemark.models.PlacemarkModel
 import kotlinx.android.synthetic.main.activity_placemark_list.*
+import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.startActivityForResult
 
-class PlacemarkListActivity: AppCompatActivity() {
+class PlacemarkListActivity: AppCompatActivity(), PlacemarkListener {
   lateinit var app: MainApp
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,7 +26,7 @@ class PlacemarkListActivity: AppCompatActivity() {
     // create layout manager and configure recycler view
     val layoutManager = LinearLayoutManager(this)
     recyclerView.layoutManager = layoutManager  // recyclerView is from the layout
-    recyclerView.adapter = PlacemarkAdapter(app.placemarks)
+    recyclerView.adapter = PlacemarkAdapter(app.placemarks.findAll(), this)
   }
 
   override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -37,5 +39,10 @@ class PlacemarkListActivity: AppCompatActivity() {
       R.id.item_add -> startActivityForResult<PlacemarkActivity>(0)
     }
     return super.onOptionsItemSelected(item)
+  }
+
+  override fun onPlacemarkClick(placemark: PlacemarkModel) {
+    // get rid of compiler warning that there might be a null value
+    startActivityForResult(intentFor<PlacemarkActivity>().putExtra("placemark_edit", placemark), 0)
   }
 }

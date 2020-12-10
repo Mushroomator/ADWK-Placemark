@@ -8,10 +8,8 @@ import de.tp.placemark.R
 import de.tp.placemark.main.MainApp
 import de.tp.placemark.models.PlacemarkModel
 import kotlinx.android.synthetic.main.activity_placemark.*
-import kotlinx.android.synthetic.main.activity_placemark_list.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
-import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.toast
 
 class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
@@ -31,16 +29,21 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
     toolbarPlacemarkActivity.title = title;
     setSupportActionBar(toolbarPlacemarkActivity)
 
+    val editExtraKey = "placemark_edit"
+    if (this.intent.hasExtra(editExtraKey)){
+      placemark = this.intent.extras?.getParcelable<PlacemarkModel>(editExtraKey)!!
+      placemarkTitle.setText(placemark.title)
+      placemarkDescription.setText(placemark.description)
+    }
+
     // set on click listener for Button
     btnAdd.setOnClickListener() {
       placemark.title = placemarkTitle.text.toString()
       placemark.description = placemarkDescription.text.toString()
       if (placemark.title.isNotEmpty()) {
+        app.placemarks.create(placemark.copy())
         info("Placemark added:\n ${placemark}")
-        app.placemarks.add(placemark.copy())
-        for (i in app.placemarks.indices){
-          info("Placemark[${i}:${app.placemarks[i]}")
-        }
+        app.placemarks.logAll()
         setResult(AppCompatActivity.RESULT_OK)
         finish()
       }
@@ -48,6 +51,7 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
         toast("Please Enter a title")
       }
     };
+
   }
 
   override fun onCreateOptionsMenu(menu: Menu?): Boolean {
