@@ -1,9 +1,10 @@
-package de.tp.placemark
+package de.tp.placemark.activities
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import de.tp.placemark.R
 import de.tp.placemark.models.PlacemarkModel
 import kotlinx.android.synthetic.main.card_placemark.view.*
 

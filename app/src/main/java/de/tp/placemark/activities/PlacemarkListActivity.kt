@@ -1,17 +1,12 @@
 package de.tp.placemark.activities
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import de.tp.placemark.PlacemarkAdapter
 import de.tp.placemark.R
 import de.tp.placemark.main.MainApp
-import de.tp.placemark.models.PlacemarkModel
 import kotlinx.android.synthetic.main.activity_placemark_list.*
-import kotlinx.android.synthetic.main.card_placemark.view.*
 import org.jetbrains.anko.startActivityForResult
 
 class PlacemarkListActivity: AppCompatActivity() {
