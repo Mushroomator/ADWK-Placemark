@@ -39,6 +39,9 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
     val editExtraKey = "placemark_edit"
     if (this.intent.hasExtra(editExtraKey)){
       edit = true
+      if (placemark.image != null){
+        btnChooseImage.setText(R.string.button_changeImage)
+      }
       placemark = this.intent.extras?.getParcelable<PlacemarkModel>(editExtraKey)!!
       placemarkTitle.setText(placemark.title)
       placemarkDescription.setText(placemark.description)
@@ -78,6 +81,7 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
         if (data != null) {
           placemark.image = data.getData().toString()
           placemarkImage.setImageBitmap(readImage(this, resultCode, data))
+          btnChooseImage.setText(R.string.button_changeImage)
         }
       }
     }

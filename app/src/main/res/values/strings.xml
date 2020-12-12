@@ -6,6 +6,7 @@
     <string name="button_addPlacemark">Add Placemark</string>
     <string name="button_savePlacemark">Save Placemark</string>
     <string name="button_addImage">Add image</string>
+    <string name="button_changeImage">Change image</string>
 
     <!-- Menu -->
     <string name="menu_addPlacemark">Add</string>
@@ -20,4 +21,7 @@
 
     <!-- Titles -->
     <string name="title_select_placemark_image">Select Placemark Image</string>
+
+    <!-- Content descriptions -->
+    <string name="cdesc_placemarkImage">Placemark image</string>
 </resources>
