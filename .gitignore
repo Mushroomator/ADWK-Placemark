@@ -13,3 +13,5 @@
 .externalNativeBuild
 .cxx
 local.properties
+# exclude maps API key
+
