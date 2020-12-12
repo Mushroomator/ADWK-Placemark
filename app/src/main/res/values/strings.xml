@@ -5,6 +5,7 @@
     <!-- Buttons -->
     <string name="button_addPlacemark">Add Placemark</string>
     <string name="button_savePlacemark">Save Placemark</string>
+    <string name="button_addImage">Add image</string>
 
     <!-- Menu -->
     <string name="menu_addPlacemark">Add</string>
@@ -16,4 +17,7 @@
 
     <!-- Toasts -->
     <string name="toast_enterPlacemarkTitle">Please Enter a title</string>
+
+    <!-- Titles -->
+    <string name="title_select_placemark_image">Select Placemark Image</string>
 </resources>

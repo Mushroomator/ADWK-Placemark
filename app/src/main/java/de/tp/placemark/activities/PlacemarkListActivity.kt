@@ -1,5 +1,6 @@
 package de.tp.placemark.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
@@ -44,5 +45,10 @@ class PlacemarkListActivity: AppCompatActivity(), PlacemarkListener {
   override fun onPlacemarkClick(placemark: PlacemarkModel) {
     // get rid of compiler warning that there might be a null value
     startActivityForResult(intentFor<PlacemarkActivity>().putExtra("placemark_edit", placemark), 0)
+  }
+
+  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    recyclerView.adapter?.notifyDataSetChanged()
+    super.onActivityResult(requestCode, resultCode, data)
   }
 }

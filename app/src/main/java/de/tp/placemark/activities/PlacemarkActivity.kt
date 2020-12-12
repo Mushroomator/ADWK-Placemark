@@ -1,10 +1,14 @@
 package de.tp.placemark.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import de.tp.placemark.R
+import de.tp.placemark.helpers.readImage
+import de.tp.placemark.helpers.readImageFromPath
+import de.tp.placemark.helpers.showImagePicker
 import de.tp.placemark.main.MainApp
 import de.tp.placemark.models.PlacemarkModel
 import kotlinx.android.synthetic.main.activity_placemark.*
@@ -16,6 +20,8 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
 
   var placemark = PlacemarkModel()
   lateinit var app: MainApp
+
+  val IMAGE_REQUEST = 1 // ID to identify Activity-Response
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -36,6 +42,7 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
       placemark = this.intent.extras?.getParcelable<PlacemarkModel>(editExtraKey)!!
       placemarkTitle.setText(placemark.title)
       placemarkDescription.setText(placemark.description)
+      placemarkImage.setImageBitmap(readImageFromPath(this, placemark.image))
       btnAdd.text = getString(R.string.button_savePlacemark)
     }
 
@@ -60,6 +67,21 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
       }
     };
 
+    btnChooseImage.setOnClickListener {
+      showImagePicker(this, IMAGE_REQUEST)
+    }
+  }
+
+  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    when(requestCode){
+      IMAGE_REQUEST -> {
+        if (data != null) {
+          placemark.image = data.getData().toString()
+          placemarkImage.setImageBitmap(readImage(this, resultCode, data))
+        }
+      }
+    }
+    super.onActivityResult(requestCode, resultCode, data)
   }
 
   override fun onCreateOptionsMenu(menu: Menu?): Boolean {
