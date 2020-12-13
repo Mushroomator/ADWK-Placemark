@@ -42,9 +42,7 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
     val editExtraKey = "placemark_edit"
     if (this.intent.hasExtra(editExtraKey)){
       edit = true
-      if (placemark.image != null){
-        btnChooseImage.setText(R.string.button_changeImage)
-      }
+      btnChooseImage.setText(R.string.button_changeImage)
       placemark = this.intent.extras?.getParcelable<PlacemarkModel>(editExtraKey)!!
       placemarkTitle.setText(placemark.title)
       placemarkDescription.setText(placemark.description)
@@ -99,7 +97,7 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
       }
       LOCATION_REQUEST -> {
         if(data != null){
-          this.location = data.extras?.getParcelable<Location>("location")!!
+          val location = data.extras?.getParcelable<Location>("location")!!
           placemark.lat = location.lat
           placemark.lng = location.lng
           placemark.zoom = location.zoom
