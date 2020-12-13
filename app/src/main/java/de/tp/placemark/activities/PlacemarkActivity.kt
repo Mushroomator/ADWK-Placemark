@@ -22,6 +22,7 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
 
   var placemark = PlacemarkModel()
   lateinit var app: MainApp
+  var edit = false
 
   val IMAGE_REQUEST = 1 // ID to identify Activity-Response
   val LOCATION_REQUEST = 2
@@ -38,7 +39,6 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
     toolbarPlacemarkActivity.title = title;
     setSupportActionBar(toolbarPlacemarkActivity)
 
-    var edit = false;
     val editExtraKey = "placemark_edit"
     if (this.intent.hasExtra(editExtraKey)){
       edit = true
@@ -109,12 +109,19 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
 
   override fun onCreateOptionsMenu(menu: Menu?): Boolean {
     menuInflater.inflate(R.menu.menu_placemark_activity, menu)
+    if(edit && menu != null){
+      menu.getItem(0).setVisible(true)
+    }
     return super.onCreateOptionsMenu(menu)
   }
 
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
     when(item.itemId){
       R.id.item_cancel -> finish()
+      R.id.item_delete -> {
+        app.placemarks.delete(placemark)
+        finish()
+      }
     }
     return super.onOptionsItemSelected(item)
   }

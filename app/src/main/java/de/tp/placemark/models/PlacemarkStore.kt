@@ -22,6 +22,12 @@ interface PlacemarkStore {
     fun update(placemark: PlacemarkModel)
 
     /**
+     * Delete a placemark from the store
+     * @param placemark Placemark to be deleted
+     */
+    fun delete(placemark: PlacemarkModel)
+
+    /**
      * Logs all stored placemarks to the console
      * @author Thomas Pilz
      */
