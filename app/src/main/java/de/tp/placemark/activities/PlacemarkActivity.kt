@@ -10,10 +10,12 @@ import de.tp.placemark.helpers.readImage
 import de.tp.placemark.helpers.readImageFromPath
 import de.tp.placemark.helpers.showImagePicker
 import de.tp.placemark.main.MainApp
+import de.tp.placemark.models.Location
 import de.tp.placemark.models.PlacemarkModel
 import kotlinx.android.synthetic.main.activity_placemark.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
+import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
 
 class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
@@ -22,6 +24,7 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
   lateinit var app: MainApp
 
   val IMAGE_REQUEST = 1 // ID to identify Activity-Response
+  val LOCATION_REQUEST = 2
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -75,7 +78,13 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
     }
 
     btnSetLocation.setOnClickListener{
-      info("Location Button pressed")
+      val location = Location(52.245696, -7.139102, 15f)  // set WIT as default location
+      if (placemark.zoom != 0f) {// if zoom is 0 --> no location has been set yet --> use the default locattion --> otherwise: use location stored in placemerkStore
+        location.lat =  placemark.lat
+        location.lng = placemark.lng
+        location.zoom = placemark.zoom
+      }
+      startActivityForResult(intentFor<MapActivity>().putExtra("location", location), LOCATION_REQUEST)
     }
   }
 
@@ -86,6 +95,14 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
           placemark.image = data.getData().toString()
           placemarkImage.setImageBitmap(readImage(this, resultCode, data))
           btnChooseImage.setText(R.string.button_changeImage)
+        }
+      }
+      LOCATION_REQUEST -> {
+        if(data != null){
+          this.location = data.extras?.getParcelable<Location>("location")!!
+          placemark.lat = location.lat
+          placemark.lng = location.lng
+          placemark.zoom = location.zoom
         }
       }
     }
