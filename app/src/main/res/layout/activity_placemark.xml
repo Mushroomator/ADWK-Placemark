@@ -120,6 +120,7 @@
                 android:layout_width="0dp"
                 android:layout_height="45dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="4dp"
                 android:background="@color/colorAccent"
                 android:text="@string/button_addImage"
@@ -128,7 +129,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/btnSetLocation"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:layout_editor_absoluteY="186dp" />
+                app:layout_constraintTop_toBottomOf="@+id/placemarkDescription" />
 
             <Button
                 android:id="@+id/btnAdd"
