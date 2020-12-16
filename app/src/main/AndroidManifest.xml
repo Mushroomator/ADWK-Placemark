@@ -38,7 +38,7 @@
         <activity
             android:name=".activities.MapActivity"
             android:label="@string/title_activity_map" />
-        <activity android:name=".activities.PlacemarkActivity" />
+        <activity android:name=".activities.PlacemarkView" />
         <activity android:name=".activities.PlacemarkMapsActivity"></activity>
     </application>
 

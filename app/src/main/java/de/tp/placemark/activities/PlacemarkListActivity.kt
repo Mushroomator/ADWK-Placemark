@@ -47,7 +47,7 @@ class PlacemarkListActivity: AppCompatActivity(), PlacemarkListener {
 
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
     when(item.itemId){
-      R.id.item_add -> startActivityForResult<PlacemarkActivity>(0)
+      R.id.item_add -> startActivityForResult<PlacemarkView>(0)
       R.id.item_map -> startActivity<PlacemarkMapsActivity>()
     }
     return super.onOptionsItemSelected(item)
@@ -55,7 +55,7 @@ class PlacemarkListActivity: AppCompatActivity(), PlacemarkListener {
 
   override fun onPlacemarkClick(placemark: PlacemarkModel) {
     // get rid of compiler warning that there might be a null value
-    startActivityForResult(intentFor<PlacemarkActivity>().putExtra("placemark_edit", placemark), 0)
+    startActivityForResult(intentFor<PlacemarkView>().putExtra("placemark_edit", placemark), 0)
   }
 
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
