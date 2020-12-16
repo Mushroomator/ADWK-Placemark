@@ -28,6 +28,13 @@ interface PlacemarkStore {
     fun delete(placemark: PlacemarkModel)
 
     /**
+     * Find a placemark by its ID. Null will be returned if none is found.
+     * @param id ID of Placemark to be deleted
+     * @author Thomas Pilz
+     */
+    fun findById(id:Long) : PlacemarkModel?
+
+    /**
      * Logs all stored placemarks to the console
      * @author Thomas Pilz
      */

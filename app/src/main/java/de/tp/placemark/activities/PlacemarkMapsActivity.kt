@@ -8,6 +8,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import de.tp.placemark.R
+import de.tp.placemark.helpers.readImageFromPath
 import de.tp.placemark.main.MainApp
 import kotlinx.android.synthetic.main.activity_placemark_list.*
 import kotlinx.android.synthetic.main.activity_placemark_list.toolbar
@@ -53,8 +54,14 @@ class PlacemarkMapsActivity : AppCompatActivity(), AnkoLogger, GoogleMap.OnMarke
 
 
     override fun onMarkerClick(marker: Marker): Boolean {
-        currentTitle.text = marker.title  // current title to marker title
-        return false;
+        val tag = marker.tag as Long
+        var currentPlacemark = app.placemarks.findById(tag)
+        if(currentPlacemark != null){
+            currentTitle.text = currentPlacemark.title
+            currentDescription.text = currentPlacemark.description
+            currentImage.setImageBitmap(readImageFromPath(this, currentPlacemark.image))
+        }
+        return true; // false means default behavior = camera zooms on marker on popup will be displayed; true: custom event
     }
 
     // Lifecycle events

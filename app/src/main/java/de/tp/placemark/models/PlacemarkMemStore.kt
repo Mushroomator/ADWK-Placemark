@@ -29,7 +29,7 @@ class PlacemarkMemStore: PlacemarkStore, AnkoLogger {
     }
 
     override fun update(placemark: PlacemarkModel) {
-        var foundPlacemark: PlacemarkModel? = placemarks.find{ it.id == placemark.id }
+        var foundPlacemark: PlacemarkModel? = findById(placemark.id)
         if (foundPlacemark != null){
             foundPlacemark.title = placemark.title
             foundPlacemark.description = placemark.description
@@ -40,6 +40,10 @@ class PlacemarkMemStore: PlacemarkStore, AnkoLogger {
             info("Placemarks have been updated.")
             logAll()
         }
+    }
+
+    override fun findById(id: Long): PlacemarkModel? {
+        return placemarks.find { id === it.id }
     }
 
     override fun delete(placemark: PlacemarkModel) {
