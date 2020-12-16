@@ -22,12 +22,6 @@
             app:elevation="0dip"
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" />
-
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbarPlacemarkActivity"
                 android:layout_width="match_parent"
@@ -142,7 +136,7 @@
                 android:text="@string/button_addPlacemark"
                 android:textColor="@color/colorPrimary"
                 android:textSize="16sp"
-                app:layout_constraintBottom_toTopOf="@+id/imageView"
+                app:layout_constraintBottom_toTopOf="@id/placemarkImage"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btnChooseImage" />
@@ -155,6 +149,7 @@
                 android:layout_marginTop="64dp"
                 android:layout_marginEnd="8dp"
                 android:hint="@string/hint_placemarkTitle"
+                android:inputType="text"
                 android:maxLength="25"
                 android:maxLines="1"
                 android:textColor="@color/colorPrimaryDark"
@@ -163,7 +158,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:autofillHints="" />
 
             <!-- before refactoring of layout
             <EditText
@@ -189,7 +185,10 @@
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
+                android:autoLink="phone"
                 android:hint="@string/hint_placemarkDescription"
+                android:importantForAutofill="no"
+                android:inputType="text"
                 android:maxLength="25"
                 android:maxLines="1"
                 android:textColor="@color/colorPrimaryDark"
@@ -201,13 +200,14 @@
                 app:layout_constraintTop_toBottomOf="@+id/placemarkTitle" />
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/placemarkImage"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
+                android:contentDescription="@string/cdesc_placemarkImage"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
