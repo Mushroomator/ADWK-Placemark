@@ -13,13 +13,16 @@ import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 
-class PlacemarkListActivity: AppCompatActivity(), PlacemarkListener {
-  lateinit var app: MainApp
+class PlacemarkListView: AppCompatActivity(), PlacemarkListener {
+
+  lateinit var presenter: PlacemarkListPresenter
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_placemark_list)
-    app = application as MainApp
+
+    // create presenter
+    presenter = PlacemarkListPresenter(this)
 
     // set and enable toolbar
     toolbar.title = title;  // call getTitle() method of Activity (superclass of AppCompatActivity)
@@ -32,7 +35,7 @@ class PlacemarkListActivity: AppCompatActivity(), PlacemarkListener {
   }
 
   private fun loadPlacemarks() {
-    showPlacemarks(app.placemarks.findAll())
+    showPlacemarks(presenter.getPlacemarks())
   }
 
   fun showPlacemarks (placemarks: List<PlacemarkModel>) {
@@ -47,19 +50,19 @@ class PlacemarkListActivity: AppCompatActivity(), PlacemarkListener {
 
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
     when(item.itemId){
-      R.id.item_add -> startActivityForResult<PlacemarkView>(0)
-      R.id.item_map -> startActivity<PlacemarkMapsActivity>()
+      R.id.item_add -> presenter.doAddPlacemark()
+      R.id.item_map -> presenter.doShowPlacemarksMap()
     }
     return super.onOptionsItemSelected(item)
   }
 
   override fun onPlacemarkClick(placemark: PlacemarkModel) {
     // get rid of compiler warning that there might be a null value
-    startActivityForResult(intentFor<PlacemarkView>().putExtra("placemark_edit", placemark), 0)
+    presenter.doEditPlacemark(placemark)
   }
 
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-    loadPlacemarks()
+    recyclerView.adapter?.notifyDataSetChanged() // notify recyclerView that data has been changed
     super.onActivityResult(requestCode, resultCode, data)
   }
 }

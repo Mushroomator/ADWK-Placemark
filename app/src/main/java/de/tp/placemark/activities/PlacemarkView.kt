@@ -10,7 +10,6 @@ import de.tp.placemark.helpers.readImageFromPath
 import de.tp.placemark.models.PlacemarkModel
 import kotlinx.android.synthetic.main.activity_placemark.*
 import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.info
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
 
@@ -27,8 +26,8 @@ class PlacemarkView : AppCompatActivity(), AnkoLogger {
     presenter = PlacemarkPresenter(this)
 
     // set and enable toolbar
-    toolbarPlacemarkActivity.title = title;
-    setSupportActionBar(toolbarPlacemarkActivity)
+    toolbarPlacemarkView.title = title;
+    setSupportActionBar(toolbarPlacemarkView)
 
     // set on click listener for Add-Button
     btnAdd.setOnClickListener() {
