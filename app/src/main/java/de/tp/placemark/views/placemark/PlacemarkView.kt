@@ -1,4 +1,4 @@
-package de.tp.placemark.activities
+package de.tp.placemark.views.placemark
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import de.tp.placemark.R
 import de.tp.placemark.helpers.readImageFromPath
 import de.tp.placemark.models.PlacemarkModel
+import de.tp.placemark.views.location.EditLocationView
 import kotlinx.android.synthetic.main.activity_placemark.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.intentFor
@@ -61,7 +62,7 @@ class PlacemarkView : AppCompatActivity(), AnkoLogger {
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
     presenter.doActivityResult(requestCode, requestCode, data)
     super.onActivityResult(requestCode, resultCode, data)
-    intentFor<MapActivity>()
+    intentFor<EditLocationView>()
   }
 
   override fun onCreateOptionsMenu(menu: Menu?): Boolean {

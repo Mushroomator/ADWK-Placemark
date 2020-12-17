@@ -1,4 +1,4 @@
-package de.tp.placemark.activities
+package de.tp.placemark.views.placemarkList
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,12 +6,8 @@ import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import de.tp.placemark.R
-import de.tp.placemark.main.MainApp
 import de.tp.placemark.models.PlacemarkModel
 import kotlinx.android.synthetic.main.activity_placemark_list.*
-import org.jetbrains.anko.intentFor
-import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.startActivityForResult
 
 class PlacemarkListView: AppCompatActivity(), PlacemarkListener {
 

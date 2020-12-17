@@ -1,7 +1,5 @@
-package de.tp.placemark.activities
+package de.tp.placemark.views.placemarkList
 
-import android.app.Activity
-import android.view.ActionMode
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

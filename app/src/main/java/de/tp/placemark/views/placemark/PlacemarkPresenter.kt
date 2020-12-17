@@ -1,4 +1,4 @@
-package de.tp.placemark.activities
+package de.tp.placemark.views.placemark
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,7 +6,7 @@ import de.tp.placemark.helpers.showImagePicker
 import de.tp.placemark.main.MainApp
 import de.tp.placemark.models.Location
 import de.tp.placemark.models.PlacemarkModel
-import kotlinx.android.synthetic.main.activity_placemark.*
+import de.tp.placemark.views.location.EditLocationView
 import org.jetbrains.anko.intentFor
 
 
@@ -52,7 +52,7 @@ class PlacemarkPresenter(val view: PlacemarkView) {
   }
 
   /**
-   * Start MapActivity to set placemark location. Use default location as a starting point.
+   * Start EditLocationView to set placemark location. Use default location as a starting point.
    */
   fun doSetLocation(){
     if (placemark.zoom != 0f) {// if zoom is 0 --> no location has been set yet --> use the default locattion --> otherwise: use location stored in placemerkStore
@@ -60,7 +60,7 @@ class PlacemarkPresenter(val view: PlacemarkView) {
       location.lng = placemark.lng
       location.zoom = placemark.zoom
     }
-    view.startActivityForResult(view.intentFor<PlacemarkMapsActivity>().putExtra("location", location), LOCATION_REQUEST)
+    view.startActivityForResult(view.intentFor<EditLocationView>().putExtra("location", location), LOCATION_REQUEST)
   }
 
   fun doActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
