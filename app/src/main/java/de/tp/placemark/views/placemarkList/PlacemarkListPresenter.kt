@@ -1,6 +1,6 @@
 package de.tp.placemark.views.placemarkList
 
-import de.tp.placemark.activities.PlacemarkMapsActivity
+import de.tp.placemark.views.map.PlacemarkMapView
 import de.tp.placemark.main.MainApp
 import de.tp.placemark.models.PlacemarkModel
 import de.tp.placemark.views.placemark.PlacemarkView
@@ -26,6 +26,6 @@ class PlacemarkListPresenter(val view: PlacemarkListView) {
   }
 
   fun doShowPlacemarksMap() {
-    view.startActivity<PlacemarkMapsActivity>()
+    view.startActivity<PlacemarkMapView>()
   }
 }
