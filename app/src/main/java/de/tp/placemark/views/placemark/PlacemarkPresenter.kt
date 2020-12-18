@@ -7,10 +7,12 @@ import de.tp.placemark.main.MainApp
 import de.tp.placemark.models.Location
 import de.tp.placemark.models.PlacemarkModel
 import de.tp.placemark.views.location.EditLocationView
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.info
 import org.jetbrains.anko.intentFor
 
 
-class PlacemarkPresenter(val view: PlacemarkView) {
+class PlacemarkPresenter(val view: PlacemarkView): AnkoLogger {
   // ID to identify launched activities
   val IMAGE_REQUEST = 1
   val LOCATION_REQUEST = 2
@@ -52,22 +54,48 @@ class PlacemarkPresenter(val view: PlacemarkView) {
   }
 
   /**
-   * Start EditLocationView to set placemark location. Use default location as a starting point.
+   * Show Android's built in image picker activity
    */
-  fun doSetLocation(){
+  fun doSelectImage(title: String, description: String) {
+    showImagePicker(view, IMAGE_REQUEST)
+    // save current state (entered title + description), otherwise it will be lost as soon as the activity resumes
+    placemark.title = title
+    placemark.description = description
+    info("Placemark before image req: $placemark")
+  }
+
+
+  /**
+   * Start EditLocationView to set placemark location. Use default location as a starting point.
+   * Title and description will be saved in attribute placemark for the user to not loose any input he has given
+   * @param title title of placemark (that is in the input field at the moment)
+   * @param description description of placemark (that is in the input field at the moment)
+   */
+  fun doSetLocation(title: String, description: String){
     if (placemark.zoom != 0f) {// if zoom is 0 --> no location has been set yet --> use the default locattion --> otherwise: use location stored in placemerkStore
       location.lat = placemark.lat
       location.lng = placemark.lng
       location.zoom = placemark.zoom
     }
+    // save current state (entered title + description), otherwise it will be lost as soon as the activity resumes
+    placemark.title = title
+    placemark.description = description
+    info("Placemark before location req: $placemark")
     view.startActivityForResult(view.intentFor<EditLocationView>().putExtra("location", location), LOCATION_REQUEST)
   }
 
+  /**
+   * Handle finish of called activities.
+  * @param title title of placemark (that is in the input field at the moment)
+  * @param description description of placemark (that is in the input field at the moment)
+  */
   fun doActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
+    info("data: $data")
     when(requestCode){
       IMAGE_REQUEST -> {
         if (data != null) {
           placemark.image = data.data.toString()
+          info("Placemark after image req: $placemark")
           view.showPlacemark(placemark)
         }
       }
@@ -77,6 +105,8 @@ class PlacemarkPresenter(val view: PlacemarkView) {
           placemark.lat = location.lat
           placemark.lng = location.lng
           placemark.zoom = location.zoom
+          info("Placemark after location req: $placemark")
+          view.showPlacemark(placemark)
         }
       }
     }
@@ -96,13 +126,5 @@ class PlacemarkPresenter(val view: PlacemarkView) {
     app.placemarks.delete(placemark)
     view.finish()
   }
-
-  /**
-   * Show Android's built in image picker
-   */
-  fun doSelectImage() {
-    showImagePicker(view, IMAGE_REQUEST)
-  }
-
 
 }

@@ -5,9 +5,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
-import de.tp.placemark.helpers.readImageFromPath
 import de.tp.placemark.main.MainApp
-import kotlinx.android.synthetic.main.activity_placemark_maps.*
 
 class PlacemarkMapPresenter(val view: PlacemarkMapView) {
 

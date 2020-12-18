@@ -98,16 +98,17 @@
                 android:id="@+id/btnSetLocation"
                 android:layout_width="0dp"
                 android:layout_height="45dp"
-                android:layout_marginStart="4dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:background="@color/colorAccent"
                 android:text="@string/button_location"
                 android:textColor="@color/colorPrimary"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/btnChooseImage"
-                app:layout_constraintTop_toTopOf="@+id/btnChooseImage" />
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/placemarkImage" />
 
             <Button
                 android:id="@+id/btnChooseImage"
@@ -115,31 +116,16 @@
                 android:layout_height="45dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="4dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
                 android:background="@color/colorAccent"
                 android:text="@string/button_addImage"
                 android:textColor="@color/colorPrimary"
                 android:textSize="16sp"
-                app:layout_constraintEnd_toStartOf="@+id/btnSetLocation"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/placemarkDescription" />
-
-            <Button
-                android:id="@+id/btnAdd"
-                android:layout_width="0dp"
-                android:layout_height="45dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:background="@color/colorAccent"
-                android:text="@string/button_addPlacemark"
-                android:textColor="@color/colorPrimary"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toTopOf="@id/placemarkImage"
+                app:layout_constraintBottom_toTopOf="@+id/placemarkImage"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnChooseImage" />
+                app:layout_constraintTop_toBottomOf="@+id/placemarkDescription" />
 
             <EditText
                 android:id="@+id/placemarkTitle"
@@ -148,6 +134,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="64dp"
                 android:layout_marginEnd="8dp"
+                android:autofillHints=""
                 android:hint="@string/hint_placemarkTitle"
                 android:inputType="text"
                 android:maxLength="25"
@@ -158,8 +145,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:autofillHints="" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <!-- before refactoring of layout
             <EditText
@@ -184,7 +170,6 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
                 android:autoLink="phone"
                 android:hint="@string/hint_placemarkDescription"
                 android:importantForAutofill="no"
@@ -193,7 +178,6 @@
                 android:maxLines="1"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="14sp"
-                app:layout_constraintBottom_toTopOf="@+id/btnChooseImage"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -202,16 +186,14 @@
             <ImageView
                 android:id="@+id/placemarkImage"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="250dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
                 android:contentDescription="@string/cdesc_placemarkImage"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/btnSetLocation"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnAdd"
+                app:layout_constraintTop_toBottomOf="@+id/btnChooseImage"
                 app:srcCompat="@drawable/ic_launcher_background" />
 
             <!-- before refactoring of layout

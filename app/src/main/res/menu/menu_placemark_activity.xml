@@ -3,6 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/item_save"
+        android:title="@string/menu_addPlacemark"
+        app:showAsAction="always"/>
+    <item
         android:id="@+id/item_delete"
         android:visible="false"
         android:title="@string/menu_deletePlacemark"

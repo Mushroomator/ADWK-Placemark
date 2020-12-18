@@ -1,8 +1,8 @@
 package de.tp.placemark.views.placemarkList
 
-import de.tp.placemark.views.map.PlacemarkMapView
 import de.tp.placemark.main.MainApp
 import de.tp.placemark.models.PlacemarkModel
+import de.tp.placemark.views.map.PlacemarkMapView
 import de.tp.placemark.views.placemark.PlacemarkView
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.startActivity

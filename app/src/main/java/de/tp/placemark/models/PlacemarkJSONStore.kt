@@ -63,7 +63,7 @@ class PlacemarkJSONStore : PlacemarkStore, AnkoLogger {
     }
 
     override fun findById(id: Long): PlacemarkModel? {
-        return placemarks.find { id === it.id }
+        return placemarks.find { id == it.id }
     }
 
     override fun logAll() {

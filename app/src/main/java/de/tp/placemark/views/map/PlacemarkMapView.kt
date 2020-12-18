@@ -1,18 +1,14 @@
 package de.tp.placemark.views.map
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.google.android.gms.maps.CameraUpdateFactory
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
 import de.tp.placemark.R
 import de.tp.placemark.helpers.readImageFromPath
-import de.tp.placemark.main.MainApp
 import de.tp.placemark.models.PlacemarkModel
 import kotlinx.android.synthetic.main.activity_placemark_list.toolbar
-import kotlinx.android.synthetic.main.activity_placemark_maps.*
+import kotlinx.android.synthetic.main.activity_placemark_map.*
 import org.jetbrains.anko.AnkoLogger
 
 class PlacemarkMapView : AppCompatActivity(), AnkoLogger, GoogleMap.OnMarkerClickListener {
@@ -21,7 +17,7 @@ class PlacemarkMapView : AppCompatActivity(), AnkoLogger, GoogleMap.OnMarkerClic
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_placemark_maps)
+        setContentView(R.layout.activity_placemark_map)
 
         // obtain ref to presenter
         presenter = PlacemarkMapPresenter(this)

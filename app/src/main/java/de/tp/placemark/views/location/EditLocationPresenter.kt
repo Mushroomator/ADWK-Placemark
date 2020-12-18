@@ -9,7 +9,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import de.tp.placemark.models.Location
-import de.tp.placemark.views.location.EditLocationView
 
 class EditLocationPresenter(val view: EditLocationView) {
 
