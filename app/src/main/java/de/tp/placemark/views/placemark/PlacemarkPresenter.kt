@@ -61,7 +61,6 @@ class PlacemarkPresenter(val view: PlacemarkView): AnkoLogger {
     // save current state (entered title + description), otherwise it will be lost as soon as the activity resumes
     placemark.title = title
     placemark.description = description
-    info("Placemark before image req: $placemark")
   }
 
 
@@ -72,15 +71,14 @@ class PlacemarkPresenter(val view: PlacemarkView): AnkoLogger {
    * @param description description of placemark (that is in the input field at the moment)
    */
   fun doSetLocation(title: String, description: String){
-    if (placemark.zoom != 0f) {// if zoom is 0 --> no location has been set yet --> use the default locattion --> otherwise: use location stored in placemerkStore
+    if (placemark.zoom != 0f) {// if zoom is 0 --> no location has been set yet --> use the default location --> else: use location stored in placemerkStore
       location.lat = placemark.lat
       location.lng = placemark.lng
       location.zoom = placemark.zoom
     }
-    // save current state (entered title + description), otherwise it will be lost as soon as the activity resumes
+    // save current state (entered title + description), else it will be lost as soon as the activity resumes
     placemark.title = title
     placemark.description = description
-    info("Placemark before location req: $placemark")
     view.startActivityForResult(view.intentFor<EditLocationView>().putExtra("location", location), LOCATION_REQUEST)
   }
 
@@ -95,7 +93,6 @@ class PlacemarkPresenter(val view: PlacemarkView): AnkoLogger {
       IMAGE_REQUEST -> {
         if (data != null) {
           placemark.image = data.data.toString()
-          info("Placemark after image req: $placemark")
           view.showPlacemark(placemark)
         }
       }
@@ -105,7 +102,6 @@ class PlacemarkPresenter(val view: PlacemarkView): AnkoLogger {
           placemark.lat = location.lat
           placemark.lng = location.lng
           placemark.zoom = location.zoom
-          info("Placemark after location req: $placemark")
           view.showPlacemark(placemark)
         }
       }
