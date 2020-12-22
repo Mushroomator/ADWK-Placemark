@@ -32,4 +32,8 @@
     <string name="placemark_image_placeholder">Placemark Image</string>
     <string name="placemark_title_placeholder">Placemark Title</string>
     <string name="placemark_description_placeholder">Placemark Description</string>
+
+    <!-- TextViews -->
+    <string name="tv_lat">Lat</string>
+    <string name="tv_lng">Lng</string>
 </resources>

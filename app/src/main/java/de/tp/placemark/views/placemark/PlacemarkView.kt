@@ -20,7 +20,7 @@ class PlacemarkView : BaseView(), AnkoLogger {
   lateinit var map: GoogleMap
   var placemark = PlacemarkModel()
 
-  override fun onCreate(savedInstanceState: Bundle?) {
+  override fun onCreate(savedInstanceState: Bundle?){
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_placemark)
 
@@ -35,16 +35,17 @@ class PlacemarkView : BaseView(), AnkoLogger {
     mapViewPV.getMapAsync{
       map = it
       presenter.doConfigureMap(map)
+
+      // call activity EditLocation when map is clicked
+      map.setOnMapClickListener {
+        presenter.cachePlacemark(placemarkTitle.text.toString(), placemarkDescription.text.toString())
+        presenter.doSetLocation()
+      }
     }
 
     btnChooseImage.setOnClickListener {
       presenter.cachePlacemark(placemarkTitle.text.toString(), placemarkDescription.text.toString())
       presenter.doSelectImage()
-    }
-
-    btnSetLocation.setOnClickListener{
-      presenter.cachePlacemark(placemarkTitle.text.toString(), placemarkDescription.text.toString())
-      presenter.doSetLocation()
     }
   }
 

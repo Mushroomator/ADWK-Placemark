@@ -95,22 +95,6 @@
             -->
 
             <Button
-                android:id="@+id/btnSetLocation"
-                android:layout_width="0dp"
-                android:layout_height="45dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:background="@color/colorAccent"
-                android:text="@string/button_location"
-                android:textColor="@color/colorPrimary"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/placemarkImage" />
-
-            <Button
                 android:id="@+id/btnChooseImage"
                 android:layout_width="0dp"
                 android:layout_height="45dp"
@@ -133,7 +117,6 @@
                 android:layout_height="45dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="64dp"
-                android:layout_marginEnd="8dp"
                 android:autofillHints=""
                 android:hint="@string/hint_placemarkTitle"
                 android:inputType="text"
@@ -142,8 +125,9 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toTopOf="@+id/placemarkDescription"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/placemarkDescription"
                 app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -178,7 +162,7 @@
                 android:maxLines="1"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tvLng"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/placemarkTitle" />
@@ -186,11 +170,11 @@
             <ImageView
                 android:id="@+id/placemarkImage"
                 android:layout_width="0dp"
-                android:layout_height="200dp"
+                android:layout_height="250dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:contentDescription="@string/cdesc_placemarkImage"
-                app:layout_constraintBottom_toTopOf="@+id/btnSetLocation"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btnChooseImage"
@@ -207,7 +191,59 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnSetLocation" />
+                app:layout_constraintTop_toBottomOf="@+id/placemarkImage" />
+
+            <EditText
+                android:id="@+id/etLat"
+                android:layout_width="100dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="8dp"
+                android:ems="10"
+                android:inputType="number"
+                android:text="00.000000"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/placemarkTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/placemarkTitle" />
+
+            <EditText
+                android:id="@+id/etLng"
+                android:layout_width="100dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
+                android:ems="10"
+                android:inputType="number"
+                android:text="00.000000"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/placemarkDescription"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/tvLng"
+                app:layout_constraintTop_toBottomOf="@+id/placemarkTitle" />
+
+            <TextView
+                android:id="@+id/tvLng"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:text="@string/tv_lng"
+                app:layout_constraintBaseline_toBaselineOf="@+id/placemarkDescription"
+                app:layout_constraintEnd_toStartOf="@+id/etLng"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/placemarkDescription" />
+
+            <TextView
+                android:id="@+id/tvLat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:text="@string/tv_lat"
+                app:layout_constraintBaseline_toBaselineOf="@+id/placemarkTitle"
+                app:layout_constraintEnd_toStartOf="@+id/etLat"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/tvLng" />
 
             <!-- before refactoring of layout
             <ImageView
