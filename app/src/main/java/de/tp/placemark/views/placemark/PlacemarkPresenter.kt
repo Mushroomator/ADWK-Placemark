@@ -59,26 +59,28 @@ class PlacemarkPresenter(view: BaseView): BasePresenter(view), AnkoLogger {
   /**
    * Show Android's built in image picker activity
    */
-  fun doSelectImage(title: String, description: String) {
+  fun doSelectImage() {
     view?.let {
       showImagePicker(view!!, IMAGE_REQUEST)
-      // save current state (entered title + description), otherwise it will be lost as soon as the activity resumes
-      placemark.title = title
-      placemark.description = description
     }
   }
 
+  /**
+   * Save current state of placemark before calling other activities.
+   * @param title title of a placemark
+   * @param description description of a placemark
+   * @author Thomas Pilz
+   */
+  fun cachePlacemark(title: String, description: String){
+    // save current state (entered title + description), otherwise it will be lost as soon as the activity resumes
+    placemark.title = title
+    placemark.description = description
+  }
 
   /**
    * Start EditLocationView to set placemark location. Use default location as a starting point.
-   * Title and description will be saved in attribute placemark for the user to not loose any input he has given
-   * @param title title of placemark (that is in the input field at the moment)
-   * @param description description of placemark (that is in the input field at the moment)
    */
-  fun doSetLocation(title: String, description: String){
-    // save current state (entered title + description), else it will be lost as soon as the activity resumes
-    placemark.title = title
-    placemark.description = description
+  fun doSetLocation(){
     if (edit == false) {// no location has been set yet --> use the default location
       view?.navigateTo(VIEW.LOCATION, LOCATION_REQUEST, "location", defaultLocation)
     }

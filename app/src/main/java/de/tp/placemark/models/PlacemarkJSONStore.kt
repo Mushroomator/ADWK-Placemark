@@ -58,7 +58,8 @@ class PlacemarkJSONStore : PlacemarkStore, AnkoLogger {
     }
 
     override fun delete(placemark: PlacemarkModel) {
-        placemarks.remove(placemark)
+        val foundPlacemark = findById(placemark.id)
+        placemarks.remove(foundPlacemark)
         serialize()
     }
 

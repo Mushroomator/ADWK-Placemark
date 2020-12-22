@@ -28,9 +28,15 @@ class PlacemarkView : BaseView(), AnkoLogger {
     // set and enable toolbar
     init(toolbarPlacemarkView)
 
-    btnChooseImage.setOnClickListener { presenter.doSelectImage(placemarkTitle.text.toString(), placemarkDescription.text.toString()) }
+    btnChooseImage.setOnClickListener {
+      presenter.cachePlacemark(placemarkTitle.text.toString(), placemarkDescription.text.toString())
+      presenter.doSelectImage()
+    }
 
-    btnSetLocation.setOnClickListener{ presenter.doSetLocation(placemarkTitle.text.toString(), placemarkDescription.text.toString()) }
+    btnSetLocation.setOnClickListener{
+      presenter.cachePlacemark(placemarkTitle.text.toString(), placemarkDescription.text.toString())
+      presenter.doSetLocation()
+    }
   }
 
   /**
