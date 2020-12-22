@@ -16,7 +16,7 @@ class PlacemarkListPresenter(view: BaseView): BasePresenter(view) {
   fun getPlacemarks() = app.placemarks.findAll()
 
   fun doAddPlacemark() {
-    view?.startActivityForResult<PlacemarkView>(0)
+    view?.navigateTo(VIEW.PLACEMARK)
   }
 
   fun doEditPlacemark(placemark: PlacemarkModel) {

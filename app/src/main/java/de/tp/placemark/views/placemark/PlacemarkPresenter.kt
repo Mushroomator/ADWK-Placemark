@@ -13,6 +13,7 @@ import org.jetbrains.anko.intentFor
 import org.wit.placemark.views.BasePresenter
 import org.wit.placemark.views.BaseView
 import org.wit.placemark.views.VIEW
+import java.lang.Exception
 
 
 class PlacemarkPresenter(view: BaseView): BasePresenter(view), AnkoLogger {
@@ -78,10 +79,12 @@ class PlacemarkPresenter(view: BaseView): BasePresenter(view), AnkoLogger {
     // save current state (entered title + description), else it will be lost as soon as the activity resumes
     placemark.title = title
     placemark.description = description
-    if (placemark.zoom != 0f) {// if zoom is 0 --> no location has been set yet --> use the default location --> else: use location stored in placemerkStore
+    if (edit == false) {// no location has been set yet --> use the default location
       view?.navigateTo(VIEW.LOCATION, LOCATION_REQUEST, "location", defaultLocation)
     }
-    view?.navigateTo(VIEW.LOCATION, LOCATION_REQUEST, "location", Location(placemark.lat, placemark.lng, placemark.zoom))
+    else{
+      view?.navigateTo(VIEW.LOCATION, LOCATION_REQUEST, "location", Location(placemark.lat, placemark.lng, placemark.zoom))
+    }
   }
 
   /**

@@ -44,13 +44,6 @@ class PlacemarkView : BaseView(), AnkoLogger {
     btnChooseImage.setText(R.string.button_changeImage)
   }
 
-  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-    super.onActivityResult(requestCode, resultCode, data)
-    if(data != null) {
-      presenter.doActivityResult(requestCode, requestCode, data)
-    }
-  }
-
   override fun onCreateOptionsMenu(menu: Menu?): Boolean {
     menuInflater.inflate(R.menu.menu_placemark_activity, menu)
     if(presenter.edit && menu != null){
@@ -76,6 +69,10 @@ class PlacemarkView : BaseView(), AnkoLogger {
       R.id.item_delete -> presenter.doDelete()
     }
     return super.onOptionsItemSelected(item)
+  }
+
+  override fun onBackPressed() {
+    presenter.doCancel()
   }
 
 }

@@ -59,7 +59,7 @@ class PlacemarkListView: BaseView(), PlacemarkListener {
   }
 
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-    recyclerView.adapter?.notifyDataSetChanged() // notify recyclerView that data has been changed
     super.onActivityResult(requestCode, resultCode, data)
+    recyclerView.adapter?.notifyDataSetChanged() // notify recyclerView that data has been changed
   }
 }

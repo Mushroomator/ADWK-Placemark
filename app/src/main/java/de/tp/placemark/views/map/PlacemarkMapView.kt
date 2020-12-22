@@ -10,29 +10,34 @@ import de.tp.placemark.models.PlacemarkModel
 import kotlinx.android.synthetic.main.activity_placemark_list.toolbar
 import kotlinx.android.synthetic.main.activity_placemark_map.*
 import org.jetbrains.anko.AnkoLogger
+import org.wit.placemark.views.BaseView
 
-class PlacemarkMapView : AppCompatActivity(), AnkoLogger, GoogleMap.OnMarkerClickListener {
+class PlacemarkMapView : BaseView(), AnkoLogger, GoogleMap.OnMarkerClickListener {
 
     lateinit var presenter: PlacemarkMapPresenter
+    lateinit var map: GoogleMap
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_placemark_map)
 
         // obtain ref to presenter
-        presenter = PlacemarkMapPresenter(this)
+        presenter = initPresenter(PlacemarkMapPresenter(this)) as PlacemarkMapPresenter
 
         // configure toolbar
-        setSupportActionBar(toolbar)
-        toolbar.title = title
+        init(toolbar)
 
         // pass on lifecycle event onCreate
         mapView.onCreate(savedInstanceState);
         // get actual map asynchronously and assign attribute accordingly to then configure the map
-        mapView.getMapAsync { presenter.doPopulateMap(it) }
+        mapView.getMapAsync{
+            map = it
+            map.setOnMarkerClickListener(this)
+            presenter.loadPlacemarks()
+        }
     }
 
-    fun showPlacemark(placemark: PlacemarkModel){
+    override fun showPlacemark(placemark: PlacemarkModel){
         currentTitle.text = placemark.title
         currentDescription.text = placemark.description
         currentImage.setImageBitmap(readImageFromPath(this, placemark.image))

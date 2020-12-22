@@ -6,10 +6,9 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import de.tp.placemark.main.MainApp
+import org.wit.placemark.views.BasePresenter
 
-class PlacemarkMapPresenter(val view: PlacemarkMapView) {
-
-  var app: MainApp
+class PlacemarkMapPresenter(view: PlacemarkMapView): BasePresenter(view) {
 
   init {
     app = view.application as MainApp
@@ -17,7 +16,6 @@ class PlacemarkMapPresenter(val view: PlacemarkMapView) {
 
   fun doPopulateMap(map: GoogleMap) {
     map.uiSettings.setZoomControlsEnabled(true)
-    map.setOnMarkerClickListener(view)
     app.placemarks.findAll().forEach{
       val loc = LatLng(it.lat, it.lng)
       val options = MarkerOptions().title(it.title).position(loc)
@@ -30,7 +28,11 @@ class PlacemarkMapPresenter(val view: PlacemarkMapView) {
     val tag = marker.tag as Long
     var currentPlacemark = app.placemarks.findById(tag)
     if(currentPlacemark != null){
-      view.showPlacemark(currentPlacemark)
+      view?.showPlacemark(currentPlacemark)
     }
+  }
+
+  fun loadPlacemarks(){
+    view?.showPlacemarks(app.placemarks.findAll())
   }
 }

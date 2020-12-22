@@ -7,8 +7,9 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.Marker
 import de.tp.placemark.R
 import de.tp.placemark.models.Location
+import org.wit.placemark.views.BaseView
 
-class EditLocationView : AppCompatActivity(), GoogleMap.OnMarkerDragListener, GoogleMap.OnMarkerClickListener {
+class EditLocationView : BaseView(), GoogleMap.OnMarkerDragListener, GoogleMap.OnMarkerClickListener {
 
   private lateinit var map: GoogleMap
   var location = Location()
@@ -19,7 +20,7 @@ class EditLocationView : AppCompatActivity(), GoogleMap.OnMarkerDragListener, Go
     setContentView(R.layout.activity_edit_location)
 
     // create presenter
-    presenter = EditLocationPresenter(this)
+    presenter = initPresenter(EditLocationPresenter(this)) as EditLocationPresenter
 
     location = intent.extras?.getParcelable<Location>("location")!! // get location object passed on by PlacemarkActivity
     // Obtain the SupportMapFragment and get notified when the map is ready to be used.
