@@ -10,16 +10,18 @@ import de.tp.placemark.views.location.EditLocationView
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 import org.jetbrains.anko.intentFor
+import org.wit.placemark.views.BasePresenter
+import org.wit.placemark.views.BaseView
+import org.wit.placemark.views.VIEW
 
 
-class PlacemarkPresenter(val view: PlacemarkView): AnkoLogger {
+class PlacemarkPresenter(view: BaseView): BasePresenter(view), AnkoLogger {
   // ID to identify launched activities
-  val IMAGE_REQUEST = 1
-  val LOCATION_REQUEST = 2
+  private val IMAGE_REQUEST = 1
+  private val LOCATION_REQUEST = 2
 
   var placemark = PlacemarkModel()
-  var location = Location(52.245696, -7.139102, 15f)  // set WIT as default location
-  var app: MainApp
+  var defaultLocation = Location(52.245696, -7.139102, 15f)  // set WIT as default location
   var edit = false
 
   init {
@@ -49,18 +51,20 @@ class PlacemarkPresenter(val view: PlacemarkView): AnkoLogger {
       app.placemarks.create(placemark.copy())
     }
     app.placemarks.logAll()
-    view.setResult(AppCompatActivity.RESULT_OK)
-    view.finish()
+    view?.setResult(AppCompatActivity.RESULT_OK)
+    view?.finish()
   }
 
   /**
    * Show Android's built in image picker activity
    */
   fun doSelectImage(title: String, description: String) {
-    showImagePicker(view, IMAGE_REQUEST)
-    // save current state (entered title + description), otherwise it will be lost as soon as the activity resumes
-    placemark.title = title
-    placemark.description = description
+    view?.let {
+      showImagePicker(view!!, IMAGE_REQUEST)
+      // save current state (entered title + description), otherwise it will be lost as soon as the activity resumes
+      placemark.title = title
+      placemark.description = description
+    }
   }
 
 
@@ -71,15 +75,13 @@ class PlacemarkPresenter(val view: PlacemarkView): AnkoLogger {
    * @param description description of placemark (that is in the input field at the moment)
    */
   fun doSetLocation(title: String, description: String){
-    if (placemark.zoom != 0f) {// if zoom is 0 --> no location has been set yet --> use the default location --> else: use location stored in placemerkStore
-      location.lat = placemark.lat
-      location.lng = placemark.lng
-      location.zoom = placemark.zoom
-    }
     // save current state (entered title + description), else it will be lost as soon as the activity resumes
     placemark.title = title
     placemark.description = description
-    view.startActivityForResult(view.intentFor<EditLocationView>().putExtra("location", location), LOCATION_REQUEST)
+    if (placemark.zoom != 0f) {// if zoom is 0 --> no location has been set yet --> use the default location --> else: use location stored in placemerkStore
+      view?.navigateTo(VIEW.LOCATION, LOCATION_REQUEST, "location", defaultLocation)
+    }
+    view?.navigateTo(VIEW.LOCATION, LOCATION_REQUEST, "location", Location(placemark.lat, placemark.lng, placemark.zoom))
   }
 
   /**
@@ -87,13 +89,13 @@ class PlacemarkPresenter(val view: PlacemarkView): AnkoLogger {
   * @param title title of placemark (that is in the input field at the moment)
   * @param description description of placemark (that is in the input field at the moment)
   */
-  fun doActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
+  override fun doActivityResult(requestCode: Int, resultCode: Int, data: Intent){
     info("data: $data")
     when(requestCode){
       IMAGE_REQUEST -> {
         if (data != null) {
           placemark.image = data.data.toString()
-          view.showPlacemark(placemark)
+          view?.showPlacemark(placemark)
         }
       }
       LOCATION_REQUEST -> {
@@ -102,7 +104,7 @@ class PlacemarkPresenter(val view: PlacemarkView): AnkoLogger {
           placemark.lat = location.lat
           placemark.lng = location.lng
           placemark.zoom = location.zoom
-          view.showPlacemark(placemark)
+          view?.showPlacemark(placemark)
         }
       }
     }
@@ -112,7 +114,7 @@ class PlacemarkPresenter(val view: PlacemarkView): AnkoLogger {
    * Cancel view. End without modifying
    */
   fun doCancel() {
-    view.finish()
+    view?.finish()
   }
 
   /**
@@ -120,7 +122,7 @@ class PlacemarkPresenter(val view: PlacemarkView): AnkoLogger {
    */
   fun doDelete() {
     app.placemarks.delete(placemark)
-    view.finish()
+    view?.finish()
   }
 
 }

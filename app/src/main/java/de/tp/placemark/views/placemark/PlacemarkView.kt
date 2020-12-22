@@ -11,8 +11,9 @@ import de.tp.placemark.models.PlacemarkModel
 import kotlinx.android.synthetic.main.activity_placemark.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.toast
+import org.wit.placemark.views.BaseView
 
-class PlacemarkView : AppCompatActivity(), AnkoLogger {
+class PlacemarkView : BaseView(), AnkoLogger {
 
   lateinit var presenter: PlacemarkPresenter
   var placemark = PlacemarkModel()
@@ -22,11 +23,10 @@ class PlacemarkView : AppCompatActivity(), AnkoLogger {
     setContentView(R.layout.activity_placemark)
 
     // initialize presenter
-    presenter = PlacemarkPresenter(this)
+    presenter = initPresenter(PlacemarkPresenter(this)) as PlacemarkPresenter
 
     // set and enable toolbar
-    toolbarPlacemarkView.title = title;
-    setSupportActionBar(toolbarPlacemarkView)
+    init(toolbarPlacemarkView)
 
     btnChooseImage.setOnClickListener { presenter.doSelectImage(placemarkTitle.text.toString(), placemarkDescription.text.toString()) }
 
@@ -37,7 +37,7 @@ class PlacemarkView : AppCompatActivity(), AnkoLogger {
    * Show placemark on screen
    * @param placemark Placemark to be displayed
    */
-  fun showPlacemark(placemark: PlacemarkModel){
+  override fun showPlacemark(placemark: PlacemarkModel){
     placemarkTitle.setText(placemark.title)
     placemarkDescription.setText(placemark.description)
     placemarkImage.setImageBitmap(readImageFromPath(this, placemark.image))
