@@ -20,7 +20,7 @@ enum class VIEW {
   LOCATION, PLACEMARK, MAPS, LIST
 }
 
-open abstract class BaseView() : AppCompatActivity(), AnkoLogger {
+abstract class BaseView() : AppCompatActivity(), AnkoLogger {
 
   var basePresenter: BasePresenter? = null
 

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.maps.GoogleMap
 import de.tp.placemark.R
 import de.tp.placemark.helpers.readImageFromPath
 import de.tp.placemark.models.PlacemarkModel
@@ -16,6 +17,7 @@ import org.wit.placemark.views.BaseView
 class PlacemarkView : BaseView(), AnkoLogger {
 
   lateinit var presenter: PlacemarkPresenter
+  lateinit var map: GoogleMap
   var placemark = PlacemarkModel()
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,6 +29,13 @@ class PlacemarkView : BaseView(), AnkoLogger {
 
     // set and enable toolbar
     init(toolbarPlacemarkView)
+
+    // initialize MapView
+    mapViewPV.onCreate(savedInstanceState)
+    mapViewPV.getMapAsync{
+      map = it
+      presenter.doConfigureMap(map)
+    }
 
     btnChooseImage.setOnClickListener {
       presenter.cachePlacemark(placemarkTitle.text.toString(), placemarkDescription.text.toString())
@@ -77,8 +86,33 @@ class PlacemarkView : BaseView(), AnkoLogger {
     return super.onOptionsItemSelected(item)
   }
 
+  override fun onDestroy() {
+    super.onDestroy()
+    mapViewPV.onDestroy()
+  }
+
+  override fun onPause() {
+    super.onPause()
+    mapViewPV.onPause()
+  }
+
+  override fun onResume() {
+    super.onResume()
+    mapViewPV.onResume()
+  }
+
+  override fun onLowMemory() {
+    super.onLowMemory()
+    mapViewPV.onLowMemory()
+  }
+
   override fun onBackPressed() {
     presenter.doCancel()
+  }
+
+  override fun onSaveInstanceState(outState: Bundle) {
+    super.onSaveInstanceState(outState)
+    mapViewPV.onSaveInstanceState(outState)
   }
 
 }

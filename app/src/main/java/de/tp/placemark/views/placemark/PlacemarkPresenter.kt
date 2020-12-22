@@ -1,7 +1,16 @@
 package de.tp.placemark.views.placemark
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import de.tp.placemark.helpers.checkLocationPermissions
+import de.tp.placemark.helpers.isPermissionGranted
 import de.tp.placemark.helpers.showImagePicker
 import de.tp.placemark.main.MainApp
 import de.tp.placemark.models.Location
@@ -22,8 +31,10 @@ class PlacemarkPresenter(view: BaseView): BasePresenter(view), AnkoLogger {
   private val LOCATION_REQUEST = 2
 
   var placemark = PlacemarkModel()
+  var map: GoogleMap? = null
   var defaultLocation = Location(52.245696, -7.139102, 15f)  // set WIT as default location
   var edit = false
+  var locationService: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(view)
 
   init {
     // get application (application is actually getApplication() and gets an attribute of superclass Application of Activity)
@@ -35,6 +46,35 @@ class PlacemarkPresenter(view: BaseView): BasePresenter(view), AnkoLogger {
       edit = true
       placemark = view.intent.extras?.getParcelable<PlacemarkModel>(editExtraKey)!!
       view.showPlacemark(placemark)
+    }
+    else{
+      if(checkLocationPermissions(view)){
+        doSetCurrentLocation()
+      }
+
+      placemark.lat = defaultLocation.lat
+      placemark.lng = defaultLocation.lng
+    }
+  }
+
+  /**
+   * Callback called after request for a permission has been issued
+   * @param requestCode ID/ code for the request
+   * @param permissions requested permissions
+   */
+  override fun doRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    if (isPermissionGranted(requestCode, grantResults)) {
+      doSetCurrentLocation()
+    } else {
+      // permissions denied, so use the default location
+      locationUpdate(defaultLocation.lat, defaultLocation.lng)
+    }
+  }
+
+  @SuppressLint("MissingPermission")
+  fun doSetCurrentLocation(){
+    locationService.lastLocation.addOnSuccessListener {
+      locationUpdate(it.latitude, it.longitude)
     }
   }
 
@@ -81,12 +121,7 @@ class PlacemarkPresenter(view: BaseView): BasePresenter(view), AnkoLogger {
    * Start EditLocationView to set placemark location. Use default location as a starting point.
    */
   fun doSetLocation(){
-    if (edit == false) {// no location has been set yet --> use the default location
-      view?.navigateTo(VIEW.LOCATION, LOCATION_REQUEST, "location", defaultLocation)
-    }
-    else{
-      view?.navigateTo(VIEW.LOCATION, LOCATION_REQUEST, "location", Location(placemark.lat, placemark.lng, placemark.zoom))
-    }
+    view?.navigateTo(VIEW.LOCATION, LOCATION_REQUEST, "location", Location(placemark.lat, placemark.lng, placemark.zoom))
   }
 
   /**
@@ -95,7 +130,6 @@ class PlacemarkPresenter(view: BaseView): BasePresenter(view), AnkoLogger {
   * @param description description of placemark (that is in the input field at the moment)
   */
   override fun doActivityResult(requestCode: Int, resultCode: Int, data: Intent){
-    info("data: $data")
     when(requestCode){
       IMAGE_REQUEST -> {
         if (data != null) {
@@ -109,10 +143,28 @@ class PlacemarkPresenter(view: BaseView): BasePresenter(view), AnkoLogger {
           placemark.lat = location.lat
           placemark.lng = location.lng
           placemark.zoom = location.zoom
+          locationUpdate(placemark.lat, placemark.lng)
           view?.showPlacemark(placemark)
         }
       }
     }
+  }
+
+  fun doConfigureMap(map: GoogleMap){
+    this.map = map
+    locationUpdate(placemark.lat, placemark.lng)
+  }
+
+  fun locationUpdate(lat: Double, lng: Double){
+    placemark.lat = lat
+    placemark.lng = lng
+    placemark.zoom = 15f
+    map?.clear()
+    map?.uiSettings?.setZoomControlsEnabled(true)
+    val options = MarkerOptions().title(placemark.title).position(LatLng(placemark.lat, placemark.lng))
+    map?.addMarker(options)
+    map?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(placemark.lat, placemark.lng), placemark.zoom))
+    view?.showPlacemark(placemark)
   }
 
   /**
