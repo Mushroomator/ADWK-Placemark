@@ -4,25 +4,24 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import de.tp.placemark.helpers.checkLocationPermissions
+import de.tp.placemark.helpers.createDefaultLocationRequest
 import de.tp.placemark.helpers.isPermissionGranted
 import de.tp.placemark.helpers.showImagePicker
 import de.tp.placemark.main.MainApp
 import de.tp.placemark.models.Location
 import de.tp.placemark.models.PlacemarkModel
-import de.tp.placemark.views.location.EditLocationView
 import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.info
-import org.jetbrains.anko.intentFor
 import org.wit.placemark.views.BasePresenter
 import org.wit.placemark.views.BaseView
 import org.wit.placemark.views.VIEW
-import java.lang.Exception
 
 
 class PlacemarkPresenter(view: BaseView): BasePresenter(view), AnkoLogger {
@@ -31,10 +30,13 @@ class PlacemarkPresenter(view: BaseView): BasePresenter(view), AnkoLogger {
   private val LOCATION_REQUEST = 2
 
   var placemark = PlacemarkModel()
+  var edit = false
+
+  // Location
   var map: GoogleMap? = null
   var defaultLocation = Location(52.245696, -7.139102, 15f)  // set WIT as default location
-  var edit = false
   var locationService: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(view)
+  val locationRequest = createDefaultLocationRequest()
 
   init {
     // get application (application is actually getApplication() and gets an attribute of superclass Application of Activity)
@@ -68,6 +70,21 @@ class PlacemarkPresenter(view: BaseView): BasePresenter(view), AnkoLogger {
     } else {
       // permissions denied, so use the default location
       locationUpdate(defaultLocation.lat, defaultLocation.lng)
+    }
+  }
+
+  @SuppressLint("MissingPermission")
+  fun doRestartLocationUpdates(){
+    var locationCallback = object : LocationCallback() {
+      override fun onLocationResult(locationResult: LocationResult?) {
+        if(locationResult != null && locationResult.lastLocation != null){
+          val l = locationResult.locations.last()
+          locationUpdate(l.latitude, l.longitude)
+        }
+      }
+    }
+    if(!edit){
+      locationService.requestLocationUpdates(locationRequest, locationCallback, null)
     }
   }
 
@@ -126,8 +143,6 @@ class PlacemarkPresenter(view: BaseView): BasePresenter(view), AnkoLogger {
 
   /**
    * Handle finish of called activities.
-  * @param title title of placemark (that is in the input field at the moment)
-  * @param description description of placemark (that is in the input field at the moment)
   */
   override fun doActivityResult(requestCode: Int, resultCode: Int, data: Intent){
     when(requestCode){

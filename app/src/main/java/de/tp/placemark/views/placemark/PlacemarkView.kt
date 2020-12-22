@@ -54,10 +54,13 @@ class PlacemarkView : BaseView(), AnkoLogger {
    * @param placemark Placemark to be displayed
    */
   override fun showPlacemark(placemark: PlacemarkModel){
-    placemarkTitle.setText(placemark.title)
-    placemarkDescription.setText(placemark.description)
+    // only set title and text if they are empty (prevent overriding these values everytime the location is updated)
+    if(placemarkTitle.text.isEmpty()) placemarkTitle.setText(placemark.title)
+    if(placemarkDescription.text.isEmpty()) placemarkDescription.setText(placemark.description)
     placemarkImage.setImageBitmap(readImageFromPath(this, placemark.image))
     btnChooseImage.setText(R.string.button_changeImage)
+    etLat.setText("%.6f".format(placemark.lat))
+    etLng.setText("%.6f".format(placemark.lng))
   }
 
   override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -100,6 +103,7 @@ class PlacemarkView : BaseView(), AnkoLogger {
   override fun onResume() {
     super.onResume()
     mapViewPV.onResume()
+    presenter.doRestartLocationUpdates()  // (Re-)start location updates (they will automatically stop as soon as the ativity is destroyed (implemented that way in Google API))
   }
 
   override fun onLowMemory() {

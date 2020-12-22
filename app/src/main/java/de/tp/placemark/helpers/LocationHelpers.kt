@@ -1,13 +1,19 @@
 package de.tp.placemark.helpers
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.pm.PackageManager
 import android.util.Log
 import androidx.core.app.ActivityCompat
+import com.google.android.gms.location.LocationRequest
 
 val REQUEST_PERMISSIONS_REQUEST_CODE = 34
 
+/**
+ * Checks if a permission has already been granted or not
+ * @param activity activity which permissions will be checked
+ */
 fun checkLocationPermissions(activity: Activity) : Boolean {
     if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
         return true
@@ -18,8 +24,13 @@ fun checkLocationPermissions(activity: Activity) : Boolean {
     }
 }
 
+/**
+ * Checks if permission was "just" granted by the user or not after the popup appeared.
+ * @param code ID for permission request
+ * @param grantResults results of permission request
+ */
 fun isPermissionGranted(code: Int, grantResults: IntArray): Boolean {
-    var permissionGranted = false;
+    var permissionGranted = false
     if (code == REQUEST_PERMISSIONS_REQUEST_CODE) {
         when {
             grantResults.isEmpty() -> Log.i("Location", "User interaction was cancelled.")
@@ -31,4 +42,17 @@ fun isPermissionGranted(code: Int, grantResults: IntArray): Boolean {
         }
     }
     return permissionGranted
+}
+
+/**
+ * Create a default location request with some default configuration
+ */
+@SuppressLint("RestrictedApi")
+fun createDefaultLocationRequest() : LocationRequest {
+    val locationRequest = LocationRequest().apply {
+        interval = 10000
+        fastestInterval = 5000
+        priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+    }
+    return locationRequest
 }
