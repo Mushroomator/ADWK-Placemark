@@ -1,12 +1,17 @@
 package de.tp.placemark.views.location
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.Marker
 import de.tp.placemark.R
 import de.tp.placemark.models.Location
+import kotlinx.android.synthetic.main.activity_edit_location.*
+import kotlinx.android.synthetic.main.activity_placemark.*
+import org.jetbrains.anko.info
 import org.wit.placemark.views.BaseView
 
 class EditLocationView : BaseView(), GoogleMap.OnMarkerDragListener, GoogleMap.OnMarkerClickListener {
@@ -22,16 +27,40 @@ class EditLocationView : BaseView(), GoogleMap.OnMarkerDragListener, GoogleMap.O
     // create presenter
     presenter = initPresenter(EditLocationPresenter(this)) as EditLocationPresenter
 
+    // create and setup toolbar
+    init(toolbarEL)
+
     location = intent.extras?.getParcelable<Location>("location")!! // get location object passed on by PlacemarkActivity
-    // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-    val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
-    mapFragment.getMapAsync{
+
+    mapViewEL.onCreate(savedInstanceState)
+    mapViewEL.getMapAsync{
       map = it
       // registered listener for marker drag and click event
       map.setOnMarkerDragListener(this)
       map.setOnMarkerClickListener(this)
       presenter.initMap(map)
+
+      // update lat, lng labels accordingly
+      updateLatLngLabels(location.lat, location.lng)
     }
+  }
+
+  override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    menuInflater.inflate(R.menu.menu_edit_location_acitvity, menu)
+    return super.onCreateOptionsMenu(menu)
+  }
+
+  override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    when(item.itemId){
+      R.id.item_saveLocation -> presenter.doOnBackPressed()
+      }
+    return super.onOptionsItemSelected(item)
+  }
+
+  private fun updateLatLngLabels(lat: Double, lng: Double){
+    // update latitude and longitude as the marker is dragged
+    tvLatVal.text = lat.toString()
+    tvLngVal.text = lng.toString()
   }
 
   override fun onBackPressed() {
@@ -43,8 +72,11 @@ class EditLocationView : BaseView(), GoogleMap.OnMarkerDragListener, GoogleMap.O
 
   }
 
+  /**
+   * Fired when marker is dragged
+   */
   override fun onMarkerDrag(marker: Marker) {
-
+    updateLatLngLabels(marker.position.latitude, marker.position.longitude)
   }
 
   override fun onMarkerDragEnd(marker: Marker) {
@@ -54,5 +86,25 @@ class EditLocationView : BaseView(), GoogleMap.OnMarkerDragListener, GoogleMap.O
   override fun onMarkerClick(marker: Marker): Boolean {
     presenter.doUpdateMarker(marker)
     return false
+  }
+
+  override fun onDestroy() {
+    super.onDestroy()
+    mapViewEL.onDestroy()
+  }
+
+  override fun onPause() {
+    super.onPause()
+    mapViewEL.onPause()
+  }
+
+  override fun onResume() {
+    super.onResume()
+    mapViewEL.onResume()
+  }
+
+  override fun onLowMemory() {
+    super.onLowMemory()
+    mapViewEL.onLowMemory()
   }
 }
