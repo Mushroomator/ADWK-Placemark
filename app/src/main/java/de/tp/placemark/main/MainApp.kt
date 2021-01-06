@@ -1,10 +1,8 @@
 package de.tp.placemark.main
 
 import android.app.Application
-import de.tp.placemark.models.PlacemarkJSONStore
-import de.tp.placemark.models.PlacemarkMemStore
-import de.tp.placemark.models.PlacemarkModel
 import de.tp.placemark.models.PlacemarkStore
+import de.tp.placemark.models.room.PlacemarkStoreRoom
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 
@@ -14,7 +12,7 @@ class MainApp: Application(), AnkoLogger {
 
   override fun onCreate() {
     super.onCreate()
-    placemarks = PlacemarkJSONStore(this.applicationContext)
+    placemarks = PlacemarkStoreRoom(this.applicationContext)
     info("Placemark app started")
   }
 }

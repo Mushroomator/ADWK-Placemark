@@ -21,7 +21,7 @@ class EditLocationPresenter(view: EditLocationView): BasePresenter(view) {
   /**
    * Initialize Google Map
    */
-  fun initMap(map: GoogleMap){
+  fun doConfigureMap(map: GoogleMap){
     val loc = LatLng(location.lat, location.lng)
     val options = MarkerOptions()
             .title("Placemark")
@@ -30,6 +30,7 @@ class EditLocationPresenter(view: EditLocationView): BasePresenter(view) {
             .position(loc)
     map.addMarker(options)
     map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, location.zoom))
+    view?.showLocation(loc.latitude, loc.longitude)
   }
 
   /**

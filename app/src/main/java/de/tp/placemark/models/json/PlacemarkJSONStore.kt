@@ -1,4 +1,4 @@
-package de.tp.placemark.models
+package de.tp.placemark.models.json
 
 import android.content.Context
 import com.google.gson.Gson
@@ -7,6 +7,8 @@ import com.google.gson.reflect.TypeToken
 import de.tp.placemark.helpers.exists
 import de.tp.placemark.helpers.read
 import de.tp.placemark.helpers.write
+import de.tp.placemark.models.PlacemarkModel
+import de.tp.placemark.models.PlacemarkStore
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 import java.util.*
@@ -52,7 +54,6 @@ class PlacemarkJSONStore : PlacemarkStore, AnkoLogger {
             foundPlacemark.lng = placemark.lng
             foundPlacemark.zoom = placemark.zoom
             info("Placemarks have been updated.")
-            logAll()
             serialize()
         }
     }
@@ -65,10 +66,6 @@ class PlacemarkJSONStore : PlacemarkStore, AnkoLogger {
 
     override fun findById(id: Long): PlacemarkModel? {
         return placemarks.find { id == it.id }
-    }
-
-    override fun logAll() {
-        placemarks.forEach{ info(it) }
     }
 
     private fun serialize() {

@@ -34,9 +34,4 @@ interface PlacemarkStore {
      */
     fun findById(id:Long) : PlacemarkModel?
 
-    /**
-     * Logs all stored placemarks to the console
-     * @author Thomas Pilz
-     */
-    fun logAll(): Unit
 }

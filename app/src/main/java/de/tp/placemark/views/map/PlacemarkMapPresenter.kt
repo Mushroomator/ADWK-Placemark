@@ -6,6 +6,8 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import de.tp.placemark.main.MainApp
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import org.wit.placemark.views.BasePresenter
 
 class PlacemarkMapPresenter(view: PlacemarkMapView): BasePresenter(view) {
@@ -16,19 +18,31 @@ class PlacemarkMapPresenter(view: PlacemarkMapView): BasePresenter(view) {
 
   fun doPopulateMap(map: GoogleMap) {
     map.uiSettings.setZoomControlsEnabled(true)
-    app.placemarks.findAll().forEach{
-      val loc = LatLng(it.lat, it.lng)
-      val options = MarkerOptions().title(it.title).position(loc)
-      map.addMarker(options).tag = it.id  // add the marker on the map and a tag to the marker to be able to identify which marker/ Placemark was clicked on later on
-      map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, it.zoom)) // zoom in to the placemark (should actually be refatored to be out of iteration as it only needs to be done once as only one placemark can be in focus)
+
+    doAsync {
+      val placemarks = app.placemarks.findAll()
+      uiThread {
+        placemarks.forEach{
+          val loc = LatLng(it.lat, it.lng)
+          val options = MarkerOptions().title(it.title).position(loc)
+          map.addMarker(options).tag = it.id  // add the marker on the map and a tag to the marker to be able to identify which marker/ Placemark was clicked on later on
+          map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, it.zoom)) // zoom in to the placemark (should actually be refatored to be out of iteration as it only needs to be done once as only one placemark can be in focus)
+        }
+      }
     }
+
+
   }
 
   fun doMarkerSelected(marker: Marker){
     val tag = marker.tag as Long
-    var currentPlacemark = app.placemarks.findById(tag)
-    if(currentPlacemark != null){
-      view?.showPlacemark(currentPlacemark)
+    doAsync {
+      val currentPlacemark = app.placemarks.findById(tag)
+      uiThread {
+        if(currentPlacemark != null){
+          view?.showPlacemark(currentPlacemark)
+        }
+      }
     }
   }
 

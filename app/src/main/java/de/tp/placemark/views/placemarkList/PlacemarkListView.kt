@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import de.tp.placemark.R
 import de.tp.placemark.models.PlacemarkModel
 import kotlinx.android.synthetic.main.activity_placemark_list.*
+import org.jetbrains.anko.info
 import org.wit.placemark.views.BaseView
 
 class PlacemarkListView: BaseView(), PlacemarkListener {
@@ -28,11 +29,7 @@ class PlacemarkListView: BaseView(), PlacemarkListener {
     // create layout manager and configure recycler view
     val layoutManager = LinearLayoutManager(this)
     recyclerView.layoutManager = layoutManager  // recyclerView is from the layout
-    loadPlacemarks()
-  }
-
-  private fun loadPlacemarks() {
-    showPlacemarks(presenter.getPlacemarks())
+    presenter.loadPlacemarks()
   }
 
   override fun showPlacemarks (placemarks: List<PlacemarkModel>) {
@@ -60,6 +57,6 @@ class PlacemarkListView: BaseView(), PlacemarkListener {
 
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
     super.onActivityResult(requestCode, resultCode, data)
-    recyclerView.adapter?.notifyDataSetChanged() // notify recyclerView that data has been changed
+    presenter.loadPlacemarks() // notify recyclerView that data has been changed
   }
 }

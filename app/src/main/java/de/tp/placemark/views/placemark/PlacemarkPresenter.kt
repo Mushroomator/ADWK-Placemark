@@ -19,6 +19,8 @@ import de.tp.placemark.main.MainApp
 import de.tp.placemark.models.Location
 import de.tp.placemark.models.PlacemarkModel
 import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import org.wit.placemark.views.BasePresenter
 import org.wit.placemark.views.BaseView
 import org.wit.placemark.views.VIEW
@@ -103,14 +105,18 @@ class PlacemarkPresenter(view: BaseView): BasePresenter(view), AnkoLogger {
   fun doAddOrSave(title: String, description: String) {
     placemark.title = title
     placemark.description = description
-    if (edit) {
-      app.placemarks.update(placemark)
-    } else {
-      app.placemarks.create(placemark.copy())
+    doAsync {
+      if (edit) {
+        app.placemarks.update(placemark)
+      } else {
+        app.placemarks.create(placemark.copy())
+      }
+      uiThread {
+        view?.setResult(AppCompatActivity.RESULT_OK)
+        view?.finish()
+      }
     }
-    app.placemarks.logAll()
-    view?.setResult(AppCompatActivity.RESULT_OK)
-    view?.finish()
+
   }
 
   /**

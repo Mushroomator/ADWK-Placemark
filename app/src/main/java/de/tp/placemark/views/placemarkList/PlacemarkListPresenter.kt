@@ -4,26 +4,31 @@ import de.tp.placemark.main.MainApp
 import de.tp.placemark.models.PlacemarkModel
 import de.tp.placemark.views.map.PlacemarkMapView
 import de.tp.placemark.views.placemark.PlacemarkView
-import org.jetbrains.anko.intentFor
-import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.startActivityForResult
+import org.jetbrains.anko.*
 import org.wit.placemark.views.BasePresenter
 import org.wit.placemark.views.BaseView
 import org.wit.placemark.views.VIEW
 
-class PlacemarkListPresenter(view: BaseView): BasePresenter(view) {
+class PlacemarkListPresenter(view: BaseView) : BasePresenter(view) {
 
-  fun getPlacemarks() = app.placemarks.findAll()
+    fun loadPlacemarks() {
+        doAsync {
+            val placemarks = app.placemarks.findAll()
+            uiThread {
+                view?.showPlacemarks(placemarks)
+            }
+        }
+    }
 
-  fun doAddPlacemark() {
-    view?.navigateTo(VIEW.PLACEMARK)
-  }
+    fun doAddPlacemark() {
+        view?.navigateTo(VIEW.PLACEMARK)
+    }
 
-  fun doEditPlacemark(placemark: PlacemarkModel) {
-    view?.navigateTo(VIEW.PLACEMARK, 0, "placemark_edit", placemark)
-  }
+    fun doEditPlacemark(placemark: PlacemarkModel) {
+        view?.navigateTo(VIEW.PLACEMARK, 0, "placemark_edit", placemark)
+    }
 
-  fun doShowPlacemarksMap() {
-    view?.navigateTo(VIEW.MAPS)
-  }
+    fun doShowPlacemarksMap() {
+        view?.navigateTo(VIEW.MAPS)
+    }
 }

@@ -1,5 +1,7 @@
-package de.tp.placemark.models
+package de.tp.placemark.models.mem
 
+import de.tp.placemark.models.PlacemarkModel
+import de.tp.placemark.models.PlacemarkStore
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 import java.util.concurrent.atomic.AtomicLong
@@ -21,11 +23,6 @@ class PlacemarkMemStore: PlacemarkStore, AnkoLogger {
     override fun create(placemark: PlacemarkModel) {
         placemark.id = getId()
         placemarks.add(placemark)
-        logAll()
-    }
-
-    override fun logAll() {
-        this.placemarks.forEach{ info("${it}") }
     }
 
     override fun update(placemark: PlacemarkModel) {
@@ -38,7 +35,6 @@ class PlacemarkMemStore: PlacemarkStore, AnkoLogger {
             foundPlacemark.lng = placemark.lng
             foundPlacemark.zoom = placemark.zoom
             info("Placemarks have been updated.")
-            logAll()
         }
     }
 
