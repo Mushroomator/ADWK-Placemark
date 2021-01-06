@@ -23,7 +23,7 @@ class PlacemarkListView: BaseView(), PlacemarkListener {
     presenter = initPresenter(PlacemarkListPresenter(this)) as PlacemarkListPresenter
 
     // set and enable toolbar
-    init(toolbar)
+    init(toolbar, false)
 
     // create layout manager and configure recycler view
     val layoutManager = LinearLayoutManager(this)

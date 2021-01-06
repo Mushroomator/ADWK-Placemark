@@ -25,7 +25,7 @@ class PlacemarkMapView : BaseView(), AnkoLogger, GoogleMap.OnMarkerClickListener
         presenter = initPresenter(PlacemarkMapPresenter(this)) as PlacemarkMapPresenter
 
         // configure toolbar
-        init(toolbar)
+        init(toolbar, true)
 
         // pass on lifecycle event onCreate
         mapView.onCreate(savedInstanceState);

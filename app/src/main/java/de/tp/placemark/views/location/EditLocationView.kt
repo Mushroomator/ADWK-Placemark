@@ -28,7 +28,7 @@ class EditLocationView : BaseView(), GoogleMap.OnMarkerDragListener, GoogleMap.O
     presenter = initPresenter(EditLocationPresenter(this)) as EditLocationPresenter
 
     // create and setup toolbar
-    init(toolbarEL)
+    init(toolbarEL, true)
 
     location = intent.extras?.getParcelable<Location>("location")!! // get location object passed on by PlacemarkActivity
 
@@ -59,8 +59,8 @@ class EditLocationView : BaseView(), GoogleMap.OnMarkerDragListener, GoogleMap.O
 
   private fun updateLatLngLabels(lat: Double, lng: Double){
     // update latitude and longitude as the marker is dragged
-    tvLatVal.text = lat.toString()
-    tvLngVal.text = lng.toString()
+    tvLatVal.setText("%.6f".format(lat))
+    tvLngVal.setText("%.6f".format(lng))
   }
 
   override fun onBackPressed() {

@@ -1,4 +1,9 @@
 <resources>
+    <!-- Activity titles -->
+    <string name="title_activity_placemark_list">Placemarks</string>
+    <string name="title_activity_placemark">Placemark</string>
+    <string name="title_activity_location">Placemark</string>
+
     <!-- Metadata-->
     <string name="app_name">Placemark</string>
 

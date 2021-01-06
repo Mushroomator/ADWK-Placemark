@@ -28,7 +28,7 @@ class PlacemarkView : BaseView(), AnkoLogger {
     presenter = initPresenter(PlacemarkPresenter(this)) as PlacemarkPresenter
 
     // set and enable toolbar
-    init(toolbarPlacemarkView)
+    init(toolbarPlacemarkView, true)
 
     // initialize MapView
     mapViewPV.onCreate(savedInstanceState)
