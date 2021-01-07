@@ -3,11 +3,12 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-android-extensions'
     id "kotlin-kapt"
+    id 'com.google.gms.google-services'
 }
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "30.0.2"
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "de.tp.placemark"
@@ -42,6 +43,8 @@ dependencies {
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'androidx.wear:wear:1.0.0'
+    implementation 'com.google.firebase:firebase-auth:19.2.0'
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
@@ -60,5 +63,6 @@ dependencies {
 
     // Rooms
     implementation 'androidx.room:room-runtime:2.1.0'
+    compileOnly 'com.google.android.wearable:wearable:2.6.0'
     kapt 'androidx.room:room-compiler:2.1.0'
 }

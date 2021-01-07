@@ -3,7 +3,8 @@
     <string name="title_activity_placemark_list">Placemarks</string>
     <string name="title_activity_placemark">Placemark</string>
     <string name="title_activity_location">Placemark</string>
-    <string name="title_activity_login"> Signup/Login to Placemark</string>
+    <string name="title_activity_login">Signup/Login to Placemark</string>
+    <string name="title_activity_map">Map</string>
 
     <!-- Metadata-->
     <string name="app_name">Placemark</string>
@@ -18,7 +19,8 @@
     <string name="menu_savePlacemark">Save</string>
     <string name="menu_cancelPlacemark">Cancel</string>
     <string name="menu_deletePlacemark">Delete</string>
-    <string name="menu_showPlacemarksLocation">Show Placemarks locations</string>
+    <string name="menu_showMap">Show Map</string>
+    <string name="menu_logout">Logout</string>
     <string name="menu_saveLocation">Save</string>
 
     <!-- Hints -->
@@ -33,7 +35,6 @@
 
     <!-- Content descriptions -->
     <string name="cdesc_placemarkImage">Placemark image</string>
-    <string name="title_activity_map">Map</string>
 
     <!-- Placeholder -->
     <string name="placemark_image_placeholder">Placemark Image</string>
@@ -43,7 +44,6 @@
     <!-- TextViews -->
     <string name="tv_lat">Lat</string>
     <string name="tv_lng">Lng</string>
-    <string name="title_activity_login_view">loginView</string>
     <!--
     This string is used for square devices and overridden by hello_world in
     values-round/strings.xml for round devices.

@@ -17,13 +17,23 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Placemark">
 
-        <!-- Placemark List View -->
-        <activity android:name=".views.placemarkList.PlacemarkListView">
+        <!-- Login View -->
+        <activity
+            android:name=".views.login.LoginView"
+            android:label="@string/title_activity_login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <!-- Placemark List View -->
+        <activity
+            android:name=".views.placemarkList.PlacemarkListView"
+            android:label="@string/title_activity_placemark_list"
+            android:launchMode="singleTop">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".views.placemarkList.PlacemarkListView" />
@@ -32,15 +42,16 @@
         <!-- Edit Location View -->
         <activity
             android:name=".views.location.EditLocationView"
-            android:label="@string/title_activity_location">
+            android:label="@string/title_activity_location"
+            android:launchMode="singleTop">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".views.placemark.PlacemarkView" />
         </activity>
 
-
         <!-- Placemark View -->
-        <activity android:name=".views.placemark.PlacemarkView"
+        <activity
+            android:name=".views.placemark.PlacemarkView"
             android:label="@string/title_activity_placemark">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
