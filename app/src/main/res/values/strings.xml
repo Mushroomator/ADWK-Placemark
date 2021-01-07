@@ -3,6 +3,7 @@
     <string name="title_activity_placemark_list">Placemarks</string>
     <string name="title_activity_placemark">Placemark</string>
     <string name="title_activity_location">Placemark</string>
+    <string name="title_activity_login"> Signup/Login to Placemark</string>
 
     <!-- Metadata-->
     <string name="app_name">Placemark</string>
@@ -42,4 +43,10 @@
     <!-- TextViews -->
     <string name="tv_lat">Lat</string>
     <string name="tv_lng">Lng</string>
+    <string name="title_activity_login_view">loginView</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
 </resources>

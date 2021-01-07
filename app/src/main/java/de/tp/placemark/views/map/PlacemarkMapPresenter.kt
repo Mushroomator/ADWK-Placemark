@@ -47,6 +47,11 @@ class PlacemarkMapPresenter(view: PlacemarkMapView): BasePresenter(view) {
   }
 
   fun loadPlacemarks(){
-    view?.showPlacemarks(app.placemarks.findAll())
+    doAsync {
+      val placemarks = app.placemarks.findAll()
+      uiThread {
+        view?.showPlacemarks(placemarks)
+      }
+    }
   }
 }
