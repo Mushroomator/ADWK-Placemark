@@ -1,5 +1,6 @@
 package de.tp.placemark.views.placemarkList
 
+import com.google.firebase.auth.FirebaseAuth
 import de.tp.placemark.main.MainApp
 import de.tp.placemark.models.PlacemarkModel
 import de.tp.placemark.views.map.PlacemarkMapView
@@ -33,6 +34,11 @@ class PlacemarkListPresenter(view: BaseView) : BasePresenter(view) {
     }
 
     fun doLogout() {
-        view?.navigateTo(VIEW.LOGIN)
+        val auth = FirebaseAuth.getInstance()
+        // user should be logged in otherwise not possible to be here but better check if user is actually signed in
+        if (auth.currentUser != null) {
+            auth.signOut()
+            view?.navigateTo(VIEW.LOGIN)
+        }
     }
 }

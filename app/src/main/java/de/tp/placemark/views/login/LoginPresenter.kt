@@ -18,7 +18,6 @@ class LoginPresenter(view: BaseView): BasePresenter(view) {
      */
     fun doLogin(email: String, password: String){
         view?.showProgress()
-        view?.toast("Credentials: \nEmail: $email\nPassword: $password")
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(view!!){
             if(it.isSuccessful){
                 view?.navigateTo(VIEW.LIST)
@@ -32,7 +31,6 @@ class LoginPresenter(view: BaseView): BasePresenter(view) {
 
     fun doSignup(email: String, password: String){
         view?.showProgress()
-        view?.toast("Credentials: \nEmail: $email\nPassword: $password")
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(view!!){
             if(it.isSuccessful){
                 view?.navigateTo(VIEW.LIST)
