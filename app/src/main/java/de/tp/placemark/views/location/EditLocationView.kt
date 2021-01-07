@@ -50,10 +50,10 @@ class EditLocationView : BaseView(), GoogleMap.OnMarkerDragListener, GoogleMap.O
     return super.onOptionsItemSelected(item)
   }
 
-  override fun showLocation(latitude: Double, longitude: Double){
+  override fun showLocation(location: Location){
     // update latitude and longitude as the marker is dragged
-    tvLatVal.setText("%.6f".format(latitude))
-    tvLngVal.setText("%.6f".format(longitude))
+    tvLatVal.setText("%.6f".format(location.lat))
+    tvLngVal.setText("%.6f".format(location.lng))
   }
 
   override fun onBackPressed() {
@@ -69,7 +69,7 @@ class EditLocationView : BaseView(), GoogleMap.OnMarkerDragListener, GoogleMap.O
    * Fired when marker is dragged
    */
   override fun onMarkerDrag(marker: Marker) {
-    showLocation(marker.position.latitude, marker.position.longitude)
+    showLocation(Location(marker.position.latitude, marker.position.longitude))
   }
 
   override fun onMarkerDragEnd(marker: Marker) {

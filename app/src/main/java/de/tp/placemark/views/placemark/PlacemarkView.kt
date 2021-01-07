@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.maps.GoogleMap
 import de.tp.placemark.R
 import de.tp.placemark.helpers.readImageFromPath
+import de.tp.placemark.models.Location
 import de.tp.placemark.models.PlacemarkModel
 import kotlinx.android.synthetic.main.activity_placemark.*
 import org.jetbrains.anko.AnkoLogger
@@ -59,8 +60,16 @@ class PlacemarkView : BaseView(), AnkoLogger {
     if(placemarkDescription.text.isEmpty()) placemarkDescription.setText(placemark.description)
     placemarkImage.setImageBitmap(readImageFromPath(this, placemark.image))
     btnChooseImage.setText(R.string.button_changeImage)
-    etLat.setText("%.6f".format(placemark.lat))
-    etLng.setText("%.6f".format(placemark.lng))
+    showLocation(placemark.location)
+  }
+
+  /**
+   * Display location on screen
+   * @param location location to be displayed
+   */
+  override fun showLocation(location: Location) {
+    etLat.setText("%.6f".format(location.lat))
+    etLng.setText("%.6f".format(location.lng))
   }
 
   override fun onCreateOptionsMenu(menu: Menu?): Boolean {

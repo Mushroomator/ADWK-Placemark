@@ -30,7 +30,7 @@ class EditLocationPresenter(view: EditLocationView): BasePresenter(view) {
             .position(loc)
     map.addMarker(options)
     map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, location.zoom))
-    view?.showLocation(loc.latitude, loc.longitude)
+    view?.showLocation(location)
   }
 
   /**

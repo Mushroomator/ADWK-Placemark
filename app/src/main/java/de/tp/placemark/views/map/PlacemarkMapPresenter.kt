@@ -23,10 +23,10 @@ class PlacemarkMapPresenter(view: PlacemarkMapView): BasePresenter(view) {
       val placemarks = app.placemarks.findAll()
       uiThread {
         placemarks.forEach{
-          val loc = LatLng(it.lat, it.lng)
+          val loc = LatLng(it.location.lat, it.location.lng)
           val options = MarkerOptions().title(it.title).position(loc)
           map.addMarker(options).tag = it.id  // add the marker on the map and a tag to the marker to be able to identify which marker/ Placemark was clicked on later on
-          map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, it.zoom)) // zoom in to the placemark (should actually be refatored to be out of iteration as it only needs to be done once as only one placemark can be in focus)
+          map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, it.location.zoom)) // zoom in to the placemark (should actually be refatored to be out of iteration as it only needs to be done once as only one placemark can be in focus)
         }
       }
     }

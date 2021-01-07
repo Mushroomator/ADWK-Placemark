@@ -1,6 +1,7 @@
 package de.tp.placemark.models
 
 import android.os.Parcelable
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
@@ -12,9 +13,7 @@ data class PlacemarkModel(
     var title: String = "",
     var description: String = "",
     var image : String = "",
-    var lat: Double = 0.0,
-    var lng: Double = 0.0,
-    var zoom: Float = 0f): Parcelable {
+    @Embedded var location: Location = Location()) : Parcelable {
 }
 
 @Parcelize
