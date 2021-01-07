@@ -31,4 +31,8 @@ class PlacemarkListPresenter(view: BaseView) : BasePresenter(view) {
     fun doShowPlacemarksMap() {
         view?.navigateTo(VIEW.MAPS)
     }
+
+    fun doLogout() {
+        view?.navigateTo(VIEW.LOGIN)
+    }
 }
