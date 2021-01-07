@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.google.android.gms.maps.GoogleMap
 import de.tp.placemark.R
 import de.tp.placemark.helpers.readImageFromPath
@@ -58,7 +59,10 @@ class PlacemarkView : BaseView(), AnkoLogger {
     // only set title and text if they are empty (prevent overriding these values everytime the location is updated)
     if(placemarkTitle.text.isEmpty()) placemarkTitle.setText(placemark.title)
     if(placemarkDescription.text.isEmpty()) placemarkDescription.setText(placemark.description)
-    placemarkImage.setImageBitmap(readImageFromPath(this, placemark.image))
+    // replace with glide
+    // placemarkImage.setImageBitmap(readImageFromPath(this, placemark.image))
+    Glide.with(this).load(placemark.image).into(placemarkImage);
+
     btnChooseImage.setText(R.string.button_changeImage)
     showLocation(placemark.location)
   }

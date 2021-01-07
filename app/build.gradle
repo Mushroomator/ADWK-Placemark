@@ -46,6 +46,7 @@ dependencies {
     implementation 'androidx.wear:wear:1.0.0'
     implementation 'com.google.firebase:firebase-auth:19.2.0'
     implementation 'com.google.firebase:firebase-database:19.6.0'
+    implementation 'com.google.firebase:firebase-storage:19.2.1'
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
@@ -67,4 +68,6 @@ dependencies {
     compileOnly 'com.google.android.wearable:wearable:2.6.0'
     kapt 'androidx.room:room-compiler:2.1.0'
 
+    // Glider for media handling
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
 }

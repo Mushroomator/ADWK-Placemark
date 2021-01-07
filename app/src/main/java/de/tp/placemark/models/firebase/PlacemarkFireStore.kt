@@ -1,17 +1,26 @@
 package de.tp.placemark.models.firebase
 
 import android.content.Context
+import android.graphics.Bitmap
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import de.tp.placemark.helpers.readImageFromPath
 import org.jetbrains.anko.AnkoLogger
 import de.tp.placemark.models.PlacemarkModel
 import de.tp.placemark.models.PlacemarkStore
+import org.jetbrains.anko.info
+import java.io.ByteArrayOutputStream
+import java.io.File
 
 class PlacemarkFireStore(val context: Context) : PlacemarkStore, AnkoLogger {
 
     val placemarks = ArrayList<PlacemarkModel>()
     lateinit var userId: String
     lateinit var db: DatabaseReference
+    lateinit var st: StorageReference
 
     override fun findAll(): List<PlacemarkModel> {
         return placemarks
@@ -29,6 +38,7 @@ class PlacemarkFireStore(val context: Context) : PlacemarkStore, AnkoLogger {
             placemarks.add(placemark)
             db.child("users").child(userId).child("placemarks").child(key).setValue(placemark)
         }
+        updateImage(placemark)
     }
 
     override fun update(placemark: PlacemarkModel) {
@@ -41,7 +51,9 @@ class PlacemarkFireStore(val context: Context) : PlacemarkStore, AnkoLogger {
         }
 
         db.child("users").child(userId).child("placemarks").child(placemark.fbId).setValue(placemark)
-
+        if ((placemark.image.length) > 0 && (placemark.image[0] != 'h')) {
+            updateImage(placemark)
+        }
     }
 
     override fun delete(placemark: PlacemarkModel) {
@@ -63,8 +75,39 @@ class PlacemarkFireStore(val context: Context) : PlacemarkStore, AnkoLogger {
             }
         }
         userId = FirebaseAuth.getInstance().currentUser!!.uid
+
+        // initialize lateininit variables
         db = FirebaseDatabase.getInstance().reference
+        st = FirebaseStorage.getInstance().reference
+        // clear cache
         placemarks.clear()
         db.child("users").child(userId).child("placemarks").addListenerForSingleValueEvent(valueEventListener)
     }
+
+    fun updateImage(placemark: PlacemarkModel) {
+        if (placemark.image != "") {
+            val fileName = File(placemark.image)
+            val imageName = fileName.getName()
+
+            var imageRef = st.child(userId + '/' + imageName)
+            val baos = ByteArrayOutputStream()
+            val bitmap = readImageFromPath(context, placemark.image)
+
+            bitmap?.let {
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+                val data = baos.toByteArray()
+                val uploadTask = imageRef.putBytes(data)
+                uploadTask.addOnFailureListener {
+                    println(it.message)
+                }.addOnSuccessListener { taskSnapshot ->
+                    taskSnapshot.metadata!!.reference!!.downloadUrl.addOnSuccessListener {
+                        placemark.image = it.toString()
+                        info("URL: ${it.toString()}")
+                        db.child("users").child(userId).child("placemarks").child(placemark.fbId).setValue(placemark)
+                    }
+                }
+            }
+        }
+    }
+
 }

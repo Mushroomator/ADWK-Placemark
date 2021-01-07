@@ -2,6 +2,7 @@ package de.tp.placemark.views.map
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.Marker
 import de.tp.placemark.R
@@ -40,7 +41,7 @@ class PlacemarkMapView : BaseView(), AnkoLogger, GoogleMap.OnMarkerClickListener
     override fun showPlacemark(placemark: PlacemarkModel){
         currentTitle.text = placemark.title
         currentDescription.text = placemark.description
-        currentImage.setImageBitmap(readImageFromPath(this, placemark.image))
+        Glide.with(this).load(placemark.image).into(currentImage);
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {
