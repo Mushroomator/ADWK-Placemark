@@ -28,6 +28,12 @@ interface PlacemarkStore {
     fun delete(placemark: PlacemarkModel)
 
     /**
+     * Clear cached placemarks (not the persisted ones)
+     * @author Thomas Pilz
+     */
+    fun clear()
+
+    /**
      * Find a placemark by its ID. Null will be returned if none is found.
      * @param id ID of Placemark to be deleted
      * @author Thomas Pilz

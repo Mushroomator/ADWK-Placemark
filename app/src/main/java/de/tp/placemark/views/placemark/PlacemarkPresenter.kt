@@ -39,6 +39,7 @@ class PlacemarkPresenter(view: BaseView): BasePresenter(view), AnkoLogger {
   var defaultLocation = Location(52.245696, -7.139102, 15f)  // set WIT as default location
   var locationService: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(view)
   val locationRequest = createDefaultLocationRequest()
+  var locationManuallyChanged = false
 
   init {
     // get application (application is actually getApplication() and gets an attribute of superclass Application of Activity)
@@ -80,7 +81,9 @@ class PlacemarkPresenter(view: BaseView): BasePresenter(view), AnkoLogger {
       override fun onLocationResult(locationResult: LocationResult?) {
         if(locationResult != null && locationResult.lastLocation != null){
           val l = locationResult.locations.last()
-          locationUpdate(Location(l.latitude, l.longitude))
+          if(!locationManuallyChanged){
+            locationUpdate(Location(l.latitude, l.longitude))
+          }
         }
       }
     }
@@ -92,6 +95,7 @@ class PlacemarkPresenter(view: BaseView): BasePresenter(view), AnkoLogger {
   @SuppressLint("MissingPermission")
   fun doSetCurrentLocation(){
     locationService.lastLocation.addOnSuccessListener {
+      locationManuallyChanged = true
       locationUpdate(Location(it.latitude, it.longitude))
     }
   }

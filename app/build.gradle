@@ -45,6 +45,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'androidx.wear:wear:1.0.0'
     implementation 'com.google.firebase:firebase-auth:19.2.0'
+    implementation 'com.google.firebase:firebase-database:19.6.0'
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
@@ -65,4 +66,5 @@ dependencies {
     implementation 'androidx.room:room-runtime:2.1.0'
     compileOnly 'com.google.android.wearable:wearable:2.6.0'
     kapt 'androidx.room:room-compiler:2.1.0'
+
 }

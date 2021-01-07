@@ -38,6 +38,8 @@ class PlacemarkListPresenter(view: BaseView) : BasePresenter(view) {
         // user should be logged in otherwise not possible to be here but better check if user is actually signed in
         if (auth.currentUser != null) {
             auth.signOut()
+            // clear cached placemarks
+            app.placemarks.clear()
             view?.navigateTo(VIEW.LOGIN)
         }
     }
